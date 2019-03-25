@@ -1,0 +1,65 @@
+body{
+	padding: 0px;
+	background-color: #ccccbb !important;
+}
+
+.ng-cloak {
+    display: none;
+}
+
+.navbar{
+    width: 100%;
+    margin-bottom: 0 !important;
+
+}
+
+#container{
+    width: 940px;
+    margin: 0 auto 0 auto;
+}
+
+.table{
+    width: 100%;
+    margin: 0 auto 0 auto;
+}
+
+.panel{
+    position: relative;
+    width: 90%;
+    margin: 5px auto 0 auto;
+}
+
+.title h3{
+    position: relative;
+    left: 48px;
+    margin: 0 auto 20px auto;
+}
+
+.btn-task, .btn-category{
+    position: relative;
+    left: 48px;
+    margin: 0 auto 20px auto;
+}
+
+.add-cat{
+    position: relative;
+    margin: 5px auto 0 auto;
+    left: 48px;
+    display: inline-block;
+    width: 90%;
+}
+
+.add-cat input{
+    width: 50%;
+    display: inline-block;
+}
+
+.add-task{
+    position: relative;
+    width: 90%;
+    margin: 5px auto 0 auto;
+}
+
+.add-task form button{
+    margin-top: 5px;
+}

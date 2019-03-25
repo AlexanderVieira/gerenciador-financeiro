@@ -1,0 +1,125 @@
+<section>
+
+    <div class="title">
+        <h3>Categorias</h3>
+    </div>
+
+    <div class="add-cat">
+        <button type="button" class="btn btn btn-success" data-toggle="modal" data-target="#myModal">Adicionar</button>
+        <button type="button" class="btn btn btn-success" data-toggle="modal" data-target="#delModal">Remover</button>
+    </div>
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">Categorias Disponíveis</div>
+        <div class="panel-body">
+            <table class="table">
+                <tr>
+                    <th>Id</th>
+                    <th>Nome</th>
+                    <th>Descrição</th>
+                </tr>
+                <tbody>
+                <tr ng-repeat="categoria in vm.categorias.categories">
+                    <td>{{categoria.id}}</td>
+                    <td>{{categoria.nome}}</td>
+                    <td>{{categoria.descricao}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Adicionar Categoria</h4>
+            </div>
+            <div class="modal-body">
+                <section>
+                    <div class="add-cat">
+                        <form name="categoryForm">
+                            <label>Categoria:</label><input class="form-control" type="text" ng-model="vm.categoria.nome" name="category" placeholder="Nome da Categoria" ng-required="true" ng-minlength="4"/>
+                            <button type="button" class="btn btn-success" ng-click="vm.add(vm.categoria)">+Categoria</button>
+                        </form>
+
+                        <!--  <div ng-messages="categoryForm.category.$error" class="alert alert-danger">
+                             <div ng-message="riquired">
+                                 O campo categoria é obrigatório!
+                             </div>
+                             <div ng-message="minlength">
+                                 O campo categoria deve ter no mínimo 4 caracteres.
+                             </div>
+                         </div> -->
+
+                        <div ng-show = "categoryForm.category.$error.required && taskForm.category.$dirty" class="alert alert-danger">
+                            O campo categoria é obrigatório!
+                        </div>
+                        <div ng-show = "categoryForm.category.$error.minlength" class="alert alert-danger">
+                            O campo categoria deve ter no mínimo 4 caracteres.
+                        </div>
+                    </div>
+
+                    <!--<div class="panel panel-primary">
+                        <div class="panel-heading">
+                            Categorias Disponíveis
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="panel-body">
+                            <table class="table">
+                                <tbody>
+                                <tr ng-repeat="category in vm.categories[0]">
+                                    <td>{{category.name}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>-->
+                </section>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="delModal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Remover Categoria</h4>
+            </div>
+            <div class="modal-body">
+                <section>
+                    <div class="add-cat">
+                        <form name="categoryForm">
+                            <label>Categoria:</label><input class="form-control" type="text" ng-model="vm.categoria.nome" name="category" placeholder="Nome da Categoria" ng-required="true" ng-minlength="4"/>
+                            <button type="button" class="btn btn-success" ng-click="vm.remove(vm.categoria.nome)">Remover</button>
+                        </form>
+                        <div ng-show = "categoryForm.category.$error.required && taskForm.category.$dirty" class="alert alert-danger">
+                            O campo categoria é obrigatório!
+                        </div>
+                        <div ng-show = "categoryForm.category.$error.minlength" class="alert alert-danger">
+                            O campo categoria deve ter no mínimo 4 caracteres.
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
