@@ -1,0 +1,145 @@
+<div class="jumbotron">
+    <div class="title">
+        <h3>Categorias</h3>
+    </div>
+
+    <div class="btn-add-cat">
+        <button type="button" class="btn btn btn-success" data-toggle="modal" data-target="#add-modal">Adicionar Categoria</button>
+        <!--<button type="button" class="btn btn btn-success" data-toggle="modal" data-target="#del-modal">Remover</button>-->
+    </div>
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">Categorias Disponíveis</div>
+        <div class="panel-body">
+            <table class="table">
+                <tr>
+                    <th ng-hide="vm.ocultar">Id</th>
+                    <th>Nome</th>
+                    <th>Descrição</th>
+                </tr>
+                <tbody>
+                <tr ng-repeat="categoria in vm.categorias">
+                    <td ng-hide="vm.ocultar">{{categoria.id}}</td>
+                    <td>{{categoria.nome}}</td>
+                    <td>{{categoria.descricao}}</td>
+                    <td><a ui-sref='categoria({Id: categoria.id})' ng-click="vm.detailCategoria = categoria" class="btn btn-default" data-toggle="modal" data-target="#detail-modal"><span class="glyphicon glyphicon-zoom-in"></span>
+                    <td><a ui-sref='categoria({Id: categoria.id})' ng-click="vm.editCategoria = categoria" class="btn btn-default" data-toggle="modal" data-target="#edit-modal"><span class="glyphicon glyphicon-edit"></span>
+                    <td><a ui-sref='categoria({Id: categoria.id})' ng-click="vm.remove(categoria.id)" class="btn btn-default"><span class="glyphicon glyphicon-erase"></span>
+                    </a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="add-modal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Adicionar Categoria</h4>
+            </div>
+            <div class="modal-body">
+                <section>
+                    <div class="add-cat">
+                        <form name="categoryForm">
+                            <label ng-hide="vm.ocultar">Id:</label><input class="form-control" type="number" ng-hide="vm.ocultar" ng-model="vm.categoria.id" name="id" placeholder="Identificador" ng-required="false"/>
+                            <label>Nome:</label><input class="form-control" type="text" ng-model="vm.categoria.nome" name="nome" placeholder="Nome da Categoria" ng-required="true"/>
+                            <!--<label>Descrição:</label><input class="form-control" type="text" ng-readonly="true" ng-model="vm.categoria.descricao" name="descricao" placeholder="Descrição"/>-->
+                            <textarea rows="10" cols="80" ng-model="vm.categoria.descricao" name="descricao" placeholder="Descrição"></textarea>
+                            <button type="button" class="btn btn-success" ng-click="vm.add(vm.categoria)">Adicionar</button>
+                        </form>
+                        <div ng-show = "categoryForm.nome.$error.required && categoryForm.nome.$dirty" class="alert alert-danger">
+                            O campo categoria é obrigatório!
+                        </div>
+                        <div ng-show = "categoryForm.nome.$error.minlength" class="alert alert-danger">
+                            O campo categoria deve ter no mínimo 4 caracteres.
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="detail-modal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Detalhamento da Categoria</h4>
+            </div>
+            <div class="modal-body">
+                <section>
+                    <div class="detail-cat">
+                        <form name="categoryForm">
+                            <label ng-hide="vm.ocultar">Id:</label><input class="form-control" type="number" ng-hide="vm.ocultar" ng-model="vm.detailCategoria.id" name="id" placeholder="Identificador" ng-required="false"/>
+                            <label>Nome:</label><input class="form-control" type="text" ng-readonly="true" ng-model="vm.detailCategoria.nome" name="nome" placeholder="Nome da Categoria" ng-required="false"/>
+                            <!--<label>Descrição:</label><input class="form-control" type="text" ng-readonly="true" ng-model="vm.categoria.descricao" name="descricao" placeholder="Descrição"/>-->
+                            <textarea rows="10" cols="70" ng-readonly="true" ng-model="vm.detailCategoria.descricao" name="descricao" placeholder="Descrição"></textarea>
+                            <!--<button type="button" class="btn btn-success" ng-click="vm.remove(vm.categoria.nome)">Remover</button>-->
+                        </form>
+                        <div ng-show = "categoryForm.nome.$error.required && categoryForm.nome.$dirty" class="alert alert-danger">
+                            O campo categoria é obrigatório!
+                        </div>
+                        <div ng-show = "categoryForm.nome.$error.minlength" class="alert alert-danger">
+                            O campo categoria deve ter no mínimo 4 caracteres.
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="edit-modal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Atualizar Categoria</h4>
+            </div>
+            <div class="modal-body">
+                <section>
+                    <div class="edit-cat">
+                        <form name="categoryForm">
+                            <label ng-hide="vm.ocultar">Id:</label><input class="form-control" type="number" ng-hide="vm.ocultar" ng-model="vm.editCategoria.id" name="id" placeholder="Identificador" ng-required="false"/>
+                            <label>Nome:</label><input class="form-control" type="text" ng-model="vm.editCategoria.nome" name="nome" placeholder="Nome da Categoria" ng-required="false"/>
+                            <!--<label>Descrição:</label><input class="form-control" type="text" ng-readonly="true" ng-model="vm.categoria.descricao" name="descricao" placeholder="Descrição"/>-->
+                            <textarea rows="10" cols="80" ng-model="vm.editCategoria.descricao" name="descricao" placeholder="Descrição"></textarea>
+                            <button type="button" class="btn btn-success" ng-click="vm.update(vm.editCategoria)">Atualizar</button>
+                        </form>
+                        <div ng-show = "categoryForm.nome.$error.required && categoryForm.nome.$dirty" class="alert alert-danger">
+                            O campo categoria é obrigatório!
+                        </div>
+                        <div ng-show = "categoryForm.nome.$error.minlength" class="alert alert-danger">
+                            O campo categoria deve ter no mínimo 4 caracteres.
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

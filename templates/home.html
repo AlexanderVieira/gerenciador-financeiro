@@ -1,0 +1,33 @@
+<div class="jumbotron">
+    <div class="title">
+        <h3>Home</h3>
+    </div>
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">Mensagens</div>
+        <div class="panel-body">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Título</th>
+                    <th>Mensagem</th>
+                    <th>Autor</th>
+                    <th>Data</th>
+                    <th>Imagem</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="noticia in vm.noticias">
+                    <td>{{noticia.id}}</td>
+                    <td>{{noticia.titulo}}</td>
+                    <td>{{noticia.mensagem}}</td>
+                    <td>{{noticia.autor}}</td>
+                    <td>{{noticia.data}}</td>
+                    <td>{{noticia.imagem}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
