@@ -17,14 +17,16 @@
         return {
             getAll: getAll,
             add: add,
-            remove: remove
+            remove: remove,
+            update: update
         };
 
         function getAll() {
             var deferred = $q.defer();
-            return $http.get('data/gfp.json')
+            return $http.get('data/categorias.json')
                 .then(function (response) {
                     let categorias = response.data;
+                    localStorage.setItem(key, angular.toJson(categorias));
                     deferred.resolve(categorias);
                     return deferred.promise;
                 })
@@ -34,41 +36,52 @@
                 })
         }
 
-        function add(categoria, list) {
+        function add(categoria) {
 
-            var add = true;
-            for (let item of list) {
+            let categoriaStorage = localStorage.getItem(key);
+            var lista = angular.fromJson(categoriaStorage);
 
-                if (item === categoria) {
-                    add = false;
-                    break;
+            if (categoria.id === null){
+
+                categoria.id = lista.length + 1;
+                let index = lista.findIndex(c => c.id === categoria.id);
+                console.log(index);
+                if(index < 0) {
+                    lista.push(categoria);
                 }
             }
-
-            if (add) {
-                list.push(categoria);
-            }
-            localStorage.setItem(key, angular.toJson(list));
+            localStorage.setItem(key, angular.toJson(lista));
         }
 
-        function remove(categoria, list) {
+        function remove(categoriaId) {
 
-            let myCategory = categoria;
+            let categoriaStorage = localStorage.getItem(key);
+            var lista = angular.fromJson(categoriaStorage);
 
-            /*var index = list.indexOf(category);
-            if (index != -1) {
-                list.splice(index, 1)
-            }*/
+            console.log(categoriaId);
 
-            angular.forEach(list, function (categoria, index) {
-                if (categoria.name === myCategory){
-                    list.splice(index, 1);
-                }
-            });
-            localStorage.setItem(key, angular.toJson(list));
+            if (categoriaId != null){
+                let index = lista.findIndex(c => c.id === categoriaId);
+                console.log(index);                
+                lista.splice(index, 1);
+            }
+            localStorage.setItem(key, angular.toJson(lista));
+        }
 
+        function update(categoria) {
+
+            let categoriaStorage = localStorage.getItem(key);
+            var lista = angular.fromJson(categoriaStorage);
+
+            if (categoria.id != null){
+
+                let index = lista.findIndex(c => c.id === categoria.id);
+                var obj = lista[index];
+                obj.nome = categoria.nome;
+                obj.descricao = categoria.descricao;
+            }
+            localStorage.setItem(key, angular.toJson(lista));
         }
 
     }
-
-}());
+})();

@@ -11,60 +11,74 @@
         if (l != null) {
             this.lancamentos = angular.fromJson(l);
         }
+
         return {
             getAll: getAll,
             add: add,
-            remove: remove
+            remove: remove,
+            update: update
         };
 
         function getAll() {
             var deferred = $q.defer();
-            return $http.get('data/gfp.json')
+            return $http.get('data/lancamentos.json')
                 .then(function (response) {
                     let lancamentos = response.data;
+                    localStorage.setItem(key, angular.toJson(lancamentos));
                     deferred.resolve(lancamentos);
                     return deferred.promise;
                 })
                 .catch(function (response) {
-                    $log.error('Error retrieving launches: ' + response.statusText);
-                    return $q.reject('Error retrieving launches.');
+                    $log.error('Error retrieving lancamentos: ' + response.statusText);
+                    return $q.reject('Error retrieving lancamentos.');
                 })
         }
 
-        function add(lancamento, list) {
-            var add = true;
-            for (let item of list.lancamentos) {
+        function add(lancamento) {
 
-                if (item === lancamento) {
-                    add = false;
-                    break;
+            let lancamentoStorage = localStorage.getItem(key);
+            var lista = angular.fromJson(lancamentoStorage);
+
+            if (lancamento.id === null){
+
+                lancamento.id = lista.length + 1;
+                let index = lista.findIndex(c => c.id === lancamento.id);
+                console.log(index);
+                if(index < 0) {
+                    lista.push(lancamento);
                 }
             }
-
-            if (add) {
-                list.lancamentos.push(lancamento);
-            }
-            localStorage.setItem(key, angular.toJson(list));
+            localStorage.setItem(key, angular.toJson(lista));
         }
 
-        function remove(lancamento, list) {
+        function remove(lancamentoId) {
 
-            let lanc = lancamento;
+            let lancamentoStorage = localStorage.getItem(key);
+            var lista = angular.fromJson(lancamentoStorage);
 
-            /*var index = list.indexOf(lancamento);
-            if (index != -1) {
-                list.splice(index, 1)
-            }*/
+            if (lancamentoId != null){
+                let index = lista.findIndex(c => c.id === lancamentoId);
+                console.log(index);
+                lista.splice(index, 1);
+            }
+            localStorage.setItem(key, angular.toJson(lista));
+        }
 
-            angular.forEach(list.lancamentos, function (lancamento, index) {
-                if (lancamento.id === lanc.id){
-                    list.lancamentos.splice(index, 1);
-                }
-            });
-            localStorage.setItem(key, angular.toJson(list));
+        function update(lancamento) {
+
+            let lancamentoStorage = localStorage.getItem(key);
+            var lista = angular.fromJson(lancamentoStorage);
+
+            if (lancamento.id != null){
+
+                let index = lista.findIndex(c => c.id === lancamento.id);
+                var obj = lista[index];
+                obj.nome = lancamento.nome;
+                obj.descricao = lancamento.descricao;
+                localStorage.setItem(key, angular.toJson(lista));
+            }
 
         }
 
     }
-
-}());
+})();

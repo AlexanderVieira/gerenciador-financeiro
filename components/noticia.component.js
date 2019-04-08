@@ -10,31 +10,51 @@
             data: '<',
             imagem: '@',
             add: '&',
-            remove: '&'
+            remove: '&',
+            update: '&'
         },
         controllerAs: 'vm',
         controller: function (noticiaService) {
 
             var vm = this;
             vm.noticias = [];
-            vm.noticia = {};
+            vm.noticia = {'id': null};
+            vm.editNoticia = {};
+            vm.detailNoticia = {};
+            vm.ocultar = true;
 
             vm.$onInit = function () {
+
                 noticiaService.getAll().then(function (response) {
                     vm.noticias = response;
                 });
 
                 vm.add = function (noticia) {
-                    var list = vm.noticia;
-                    noticiaService.addTask(noticia, list);
+
+                    noticiaService.add(noticia);
+                    let noticiaStorage = localStorage.getItem('noticias');
+                    var lista = angular.fromJson(noticiaStorage);
+                    vm.noticias = lista;
+
                 };
 
-                vm.remove = function (noticia) {
-                    var list = vm.noticias;
-                    noticiaService.deleteTask(noticia, list);
+                vm.remove = function(noticiaId){
+
+                    noticiaService.remove(noticiaId);
+                    let noticiaStorage = localStorage.getItem('noticias');
+                    var lista = angular.fromJson(noticiaStorage);
+                    vm.noticias = lista;
+                };
+
+                vm.update = function (noticia) {
+
+                    noticiaService.update(noticia);
+                    var noticiaStorage = localStorage.getItem('noticias');
+                    var lista = angular.fromJson(noticiaStorage);
+                    vm.noticias = lista;
                 }
             };
         },
-        templateUrl: 'templates/noticia.component.html'
+        templateUrl: 'templates/noticia.html'
     });
 })();

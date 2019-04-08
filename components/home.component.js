@@ -3,27 +3,18 @@
 
     angular.module('gfpApp').component('home', {
         controllerAs: 'vm',
-        controller: function (noticiaService, $location) {
+        controller: function (noticiaService) {
 
             var vm = this;
             vm.noticias = [];
+            vm.noticia = {};
 
             vm.$onInit = function () {
                 noticiaService.getAll().then(function (response) {
                     vm.noticias = response;
                 });
-
-                vm.redirectTasks = function(){
-
-                    $location.path("lancamentos");
-                };
-
-                vm.redirectCategories = function(){
-
-                    $location.path("categorias");
-                }
             };
         },
-        templateUrl: 'templates/home.component.html'
+        templateUrl: 'templates/home.html'
     });
 })();

@@ -20,24 +20,43 @@
 
             var vm = this;
             vm.lancamentos = [];
-            vm.lancamento = {};
+            vm.lancamento = {'id': null};
+            vm.editLancamento = {};
+            vm.detailLancamento = {};
+            vm.ocultar = true;
 
             vm.$onInit = function () {
+
                 lancamentoService.getAll().then(function (response) {
                     vm.lancamentos = response;
                 });
 
                 vm.add = function (lancamento) {
-                    var list = vm.lancamentos;
-                    lancamentoService.add(lancamento, list);
+
+                    lancamentoService.add(lancamento);
+                    let lancamentoStorage = localStorage.getItem('lancamentos');
+                    var lista = angular.fromJson(lancamentoStorage);
+                    vm.lancamentos = lista;
+
                 };
 
-                vm.remove = function (lancamento) {
-                    var list = vm.lancamentos;
-                    lancamentoService.remove(lancamento, list);
+                vm.remove = function(lancamentoId){
+
+                    lancamentoService.remove(lancamentoId);
+                    let lancamentoStorage = localStorage.getItem('lancamentos');
+                    var lista = angular.fromJson(lancamentoStorage);
+                    vm.lancamentos = lista;
+                };
+
+                vm.update = function (lancamento) {
+
+                    lancamentoService.update(lancamento);
+                    /*var lancamentoStorage = localStorage.getItem('lancamentos');
+                    var lista = angular.fromJson(lancamentoStorage);
+                    vm.lancamentos = lista;*/
                 }
             };
         },
-        templateUrl: 'templates/lancamento.component.html'
+        templateUrl: 'templates/lancamento.html'
     });
 })();

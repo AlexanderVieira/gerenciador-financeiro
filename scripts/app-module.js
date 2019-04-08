@@ -1,36 +1,36 @@
 (function () {
     'use strict';
 
-    var appModule = angular.module('gfpApp', ['ui.router', 'ngMessages']);
+    var appModule = angular.module('gfpApp', ['ui.router', 'ngMessages', 'ngStorage']);
 
-    appModule.value('apiBase', 'http://localhost:8080/api/');
+    //appModule.value('apiBase', 'http://localhost:8080/api/');
 
     appModule.config(function ($stateProvider, $urlRouterProvider) {
         var states = [
-            /*{
+            {
                 name: 'home',
-                url: '/noticia',
-                templateUrl: 'templates/noticia.component.html'
-            },*/
+                url: '/home',
+                template: '<home></home>'
+            },
+            {
+                name: 'registro',
+                url: '/registro',
+                template: '<registro></registro>'
+            },
             {
                 name: 'login',
                 url: '/login',
-                templateUrl: 'templates/login.component.html'
+                template: '<login></login>'
             },
             {
-                name: 'conta',
-                url: '/conta',
-                templateUrl: 'templates/conta.component.html'
+                name: 'logout',
+                url: '/logout',
+                template: '<logout></logout>'
             },
-            /*{
-                name: 'categoria',
-                url: '/categoria',
-                templateUrl: 'templates/categoria.component.html'
-            },*/
             {
-                name: 'lacamento',
+                name: 'lacamento2',
                 url: '/lacamento',
-                templateUrl: 'templates/lancamento.component.html'
+                template: '<lancamento></lancamento>'
             },
             {
                 name: 'lancamento',
@@ -43,7 +43,12 @@
                 template: '<lancamento lancamento-id="$resolve.Id"></lancamento>'
             },
             {
-                name: 'home',
+                name: 'noticia2',
+                url: '/noticia',
+                template: '<noticia></noticia>'
+            },
+            {
+                name: 'noticia',
                 url: '/noticia/{Id}',
                 resolve: {
                     Id: function ($stateParams) {
@@ -51,6 +56,11 @@
                     }
                 },
                 template: '<noticia noticia-id="$resolve.Id"></noticia>'
+            },
+            {
+                name: 'categoria2',
+                url: '/categoria',
+                template: '<categoria></categoria>'
             },
             {
                 name: 'categoria',
@@ -65,7 +75,7 @@
 
         ];
 
-        $urlRouterProvider.otherwise('/');
+        $urlRouterProvider.otherwise('/home');
 
         states.forEach(function (state) {
             $stateProvider.state(state);

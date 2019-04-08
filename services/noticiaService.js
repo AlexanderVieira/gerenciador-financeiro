@@ -7,67 +7,77 @@
     function noticiaService($http, $q, $log) {
 
         var key = "noticias";
-        let n = localStorage.getItem(key);
-        if (n != null) {
-            this.noticias = angular.fromJson(n);
+        let m = localStorage.getItem(key);
+        if (m != null) {
+            this.noticias = angular.fromJson(m);
         }
 
         return {
             getAll: getAll,
             add: add,
-            remove: remove
+            remove: remove,
+            update: update
         };
 
         function getAll() {
             var deferred = $q.defer();
-            return $http.get('data/gfp.json')
+            return $http.get('data/noticias.json')
                 .then(function (response) {
                     let noticias = response.data;
+                    localStorage.setItem(key, angular.toJson(noticias));
                     deferred.resolve(noticias);
                     return deferred.promise;
                 })
                 .catch(function (response) {
-                    $log.error('Error retrieving news: ' + response.statusText);
-                    return $q.reject('Error retrieving news.');
+                    $log.error('Error retrieving noticias: ' + response.statusText);
+                    return $q.reject('Error retrieving noticias.');
                 })
         }
 
-        function add(noticia, list) {
+        function add(noticia) {
 
-            var add = true;
-            for (let item of list) {
+            let noticiaStorage = localStorage.getItem(key);
+            var lista = angular.fromJson(noticiaStorage);
 
-                if (item === noticia) {
-                    add = false;
-                    break;
+            if (noticia.id === null){
+
+                noticia.id = lista.length + 1;
+                let index = lista.findIndex(n => n.id === noticia.id);
+                console.log(index);
+                if(index < 0) {
+                    lista.push(noticia);
                 }
             }
-
-            if (add) {
-                list.push(noticia);
-                console.log(list);
-            }
-            localStorage.setItem(key, angular.toJson(list));
+            localStorage.setItem(key, angular.toJson(lista));
         }
 
-        function remove(noticia, list) {
+        function remove(noticiaId) {
 
-            let myCategory = noticia;
+            let noticiaStorage = localStorage.getItem(key);
+            var lista = angular.fromJson(noticiaStorage);
 
-            /*var index = list.indexOf(category);
-            if (index != -1) {
-                list.splice(index, 1)
-            }*/
+            if (noticiaId != null){
+                let index = lista.findIndex(c => c.id === noticiaId);
+                console.log(index);
+                lista.splice(index, 1);
+            }
+            localStorage.setItem(key, angular.toJson(lista));
+        }
 
-            angular.forEach(list, function (noticia, index) {
-                if (noticia.titulo === myCategory){
-                    list.splice(index, 1);
-                }
-            });
-            localStorage.setItem(key, angular.toJson(list));
+        function update(noticia) {
 
+            let noticiaStorage = localStorage.getItem(key);
+            var lista = angular.fromJson(noticiaStorage);
+
+            if (noticia.id != null){
+
+                let index = lista.findIndex(c => c.id === noticia.id);
+                var obj = lista[index];
+                obj.nome = noticia.nome;
+                obj.descricao = noticia.descricao;
+            }
+            localStorage.setItem(key, angular.toJson(lista));
         }
 
     }
-
-}());
+})();
