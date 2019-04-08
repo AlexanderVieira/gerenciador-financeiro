@@ -5,8 +5,8 @@
  * @license MIT License, http://www.opensource.org/licenses/MIT
  */
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('angular')) :
-    typeof define === 'function' && define.amd ? define(['exports', 'angular'], factory) :
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('app/scripts/angular-1.7.7/angular')) :
+    typeof define === 'function' && define.amd ? define(['exports', 'app/scripts/angular-1.7.7/angular'], factory) :
     (factory((global['angular-ui-router'] = global['angular-ui-router'] || {}),global.angular));
 }(this, (function (exports,ng_from_import) { 'use strict';
 

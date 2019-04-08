@@ -14,8 +14,8 @@
 
             let sessionIsLogged = $sessionStorage.isLogged;
             if (sessionIsLogged == null) {
-                vm.isLogged = $sessionStorage.isLogged = false;
-
+                $sessionStorage.isLogged = false;
+                vm.isLogged = $sessionStorage.isLogged;
             }
 
             vm.$onInit = function(){

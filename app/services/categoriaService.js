@@ -2,17 +2,15 @@
     'use strict';
 
     angular.module('gfpApp')
-        .factory('categoriaService', ['$http', '$q', '$log', categoriaService]);
+        .factory('categoriaService', ['$http', '$q', '$log', '$timeout', '$sessionStorage', categoriaService]);
 
-    function categoriaService($http, $q, $log) {
+    function categoriaService($http, $q, $log, $timeout, $sessionStorage) {
 
         var key = "categorias";
         let c = localStorage.getItem(key);
         if (c != null) {
             this.categorias = angular.fromJson(c);
         }
-
-        // let categories = [];
 
         return {
             getAll: getAll,
@@ -43,14 +41,27 @@
 
             if (categoria.id === null){
 
+                console.log(categoria.id);
+
                 categoria.id = lista.length + 1;
                 let index = lista.findIndex(c => c.id === categoria.id);
                 console.log(index);
-                if(index < 0) {
+                if (index < 0) {
                     lista.push(categoria);
+                    localStorage.setItem(key, angular.toJson(lista));
+                }
+            }else{
+                console.log(categoria.id);
+
+                categoria.id = lista.length + 1;
+                let index = lista.findIndex(c => c.id === categoria.id);
+                console.log(index);
+                if (index < 0) {
+                    lista.push(categoria);
+                    localStorage.setItem(key, angular.toJson(lista));
                 }
             }
-            localStorage.setItem(key, angular.toJson(lista));
+
         }
 
         function remove(categoriaId) {
@@ -64,8 +75,10 @@
                 let index = lista.findIndex(c => c.id === categoriaId);
                 console.log(index);                
                 lista.splice(index, 1);
+                console.log(lista);
+                localStorage.setItem(key, angular.toJson(lista));
             }
-            localStorage.setItem(key, angular.toJson(lista));
+
         }
 
         function update(categoria) {
@@ -79,8 +92,9 @@
                 var obj = lista[index];
                 obj.nome = categoria.nome;
                 obj.descricao = categoria.descricao;
+                localStorage.setItem(key, angular.toJson(lista));
             }
-            localStorage.setItem(key, angular.toJson(lista));
+
         }
 
     }

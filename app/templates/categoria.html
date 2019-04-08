@@ -1,4 +1,5 @@
 <div class="jumbotron">
+
     <div class="title">
         <h3>Categorias</h3>
     </div>
@@ -42,23 +43,53 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Adicionar Categoria</h4>
+
+                <div class="alert alert-success alert-dismissible" role="alert" ng-show="vm.successMessagebool">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>Congratulations!</strong> Now you're ready to do the <a href="#" class="alert-link">next shoelace</a>.
+                </div>
+
             </div>
             <div class="modal-body">
                 <section>
                     <div class="add-cat">
-                        <form name="categoryForm">
-                            <label ng-hide="vm.ocultar">Id:</label><input class="form-control" type="number" ng-hide="vm.ocultar" ng-model="vm.categoria.id" name="id" placeholder="Identificador" ng-required="false"/>
-                            <label>Nome:</label><input class="form-control" type="text" ng-model="vm.categoria.nome" name="nome" placeholder="Nome da Categoria" ng-required="true"/>
-                            <!--<label>Descrição:</label><input class="form-control" type="text" ng-readonly="true" ng-model="vm.categoria.descricao" name="descricao" placeholder="Descrição"/>-->
-                            <textarea rows="10" cols="80" ng-model="vm.categoria.descricao" name="descricao" placeholder="Descrição"></textarea>
-                            <button type="button" class="btn btn-success" ng-click="vm.add(vm.categoria)">Adicionar</button>
+                        <form name="categoriaForm">
+                            <div ng-class="{'has-error':categoriaForm.nome.$invalid &&
+                                    categoriaForm.nome.$dirty}">
+                                <label ng-hide="vm.ocultar">Id:</label><input class="form-control" type="number" ng-hide="vm.ocultar" ng-model="vm.categoria.id" name="id" placeholder="Identificador" ng-required="false"/>
+                                <label>Nome:</label><input class="form-control" type="text" ng-model="vm.categoria.nome" name="nome" placeholder="Nome da Categoria" ng-minlength="4" ng-maxlength="12" nr-required="true"/>
+
+                                <!--<div ng-messages="categoriaForm.nome.$error" style="color:#9f191f" role="alert">
+                                    <div ng-message="required">You did not enter a field</div>
+                                    <div ng-message="minlength">Your field is too short</div>
+                                    <div ng-message="maxlength">Your field is too long</div>
+                                    <div ng-message-default>This field has an input error</div>
+                                </div>-->
+
+                                <span class="help-block has-error">
+                                    <span ng-show="categoriaForm.nome.$error.required">
+                                        Category name is required.
+                                    </span>
+                                    <span ng-show="categoriaForm.nome.$error.minlength">
+                                        Category name must be at least 4 characters in length.
+                                    </span>
+                                    <span ng-show="categoriaForm.nome.$error.maxlength">
+                                        Category name cannot exceed 12 characters in length.
+                                    </span>
+                                </span>
+
+                                <!--<label>Descrição:</label><input class="form-control" type="text" ng-readonly="true" ng-model="vm.categoria.descricao" name="descricao" placeholder="Descrição"/>-->
+                                <textarea rows="10" cols="80" ng-model="vm.categoria.descricao" name="descricao" placeholder="Descrição"></textarea>
+                                <button type="button" class="btn btn-success" ng-disabled="categoriaForm.$invalid" ng-click="vm.add(vm.categoria)">Adicionar</button>
+
+                            </div>
                         </form>
-                        <div ng-show = "categoryForm.nome.$error.required && categoryForm.nome.$dirty" class="alert alert-danger">
+                        <!--<div ng-show = "categoryForm.nome.$error.required && categoryForm.nome.$dirty" class="alert alert-danger">
                             O campo categoria é obrigatório!
                         </div>
                         <div ng-show = "categoryForm.nome.$error.minlength" class="alert alert-danger">
                             O campo categoria deve ter no mínimo 4 caracteres.
-                        </div>
+                        </div>-->
                     </div>
                 </section>
 
@@ -90,12 +121,6 @@
                             <textarea rows="10" cols="70" ng-readonly="true" ng-model="vm.detailCategoria.descricao" name="descricao" placeholder="Descrição"></textarea>
                             <!--<button type="button" class="btn btn-success" ng-click="vm.remove(vm.categoria.nome)">Remover</button>-->
                         </form>
-                        <div ng-show = "categoryForm.nome.$error.required && categoryForm.nome.$dirty" class="alert alert-danger">
-                            O campo categoria é obrigatório!
-                        </div>
-                        <div ng-show = "categoryForm.nome.$error.minlength" class="alert alert-danger">
-                            O campo categoria deve ter no mínimo 4 caracteres.
-                        </div>
                     </div>
                 </section>
 
@@ -120,19 +145,22 @@
             <div class="modal-body">
                 <section>
                     <div class="edit-cat">
-                        <form name="categoryForm">
+                        <form name="editCategoryForm">
                             <label ng-hide="vm.ocultar">Id:</label><input class="form-control" type="number" ng-hide="vm.ocultar" ng-model="vm.editCategoria.id" name="id" placeholder="Identificador" ng-required="false"/>
-                            <label>Nome:</label><input class="form-control" type="text" ng-model="vm.editCategoria.nome" name="nome" placeholder="Nome da Categoria" ng-required="false"/>
+                            <label>Nome:</label><input class="form-control" type="text" ng-model="vm.editCategoria.nome" name="nome" placeholder="Nome da Categoria" ng-minlength="4" ng-maxlength="12" nr-required="true"/>
+
+                            <div ng-messages="editCategoryForm.nome.$error" style="color:#9f191f" role="alert">
+                                    <div ng-message="required">You did not enter a field</div>
+                                    <div ng-message="minlength">Your field is too short</div>
+                                    <div ng-message="maxlength">Your field is too long</div>
+                                    <div ng-message-default>This field has an input error</div>
+                            </div>
+
                             <!--<label>Descrição:</label><input class="form-control" type="text" ng-readonly="true" ng-model="vm.categoria.descricao" name="descricao" placeholder="Descrição"/>-->
                             <textarea rows="10" cols="80" ng-model="vm.editCategoria.descricao" name="descricao" placeholder="Descrição"></textarea>
-                            <button type="button" class="btn btn-success" ng-click="vm.update(vm.editCategoria)">Atualizar</button>
+                            <button type="button" class="btn btn-success" ng-disabled="editCategoryForm.$invalid" ng-click="vm.update(vm.editCategoria)">Atualizar</button>
                         </form>
-                        <div ng-show = "categoryForm.nome.$error.required && categoryForm.nome.$dirty" class="alert alert-danger">
-                            O campo categoria é obrigatório!
-                        </div>
-                        <div ng-show = "categoryForm.nome.$error.minlength" class="alert alert-danger">
-                            O campo categoria deve ter no mínimo 4 caracteres.
-                        </div>
+
                     </div>
                 </section>
 
