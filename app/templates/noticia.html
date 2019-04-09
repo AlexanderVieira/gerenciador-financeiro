@@ -29,8 +29,8 @@
                     <td>{{noticia.autor}}</td>
                     <td><span>{{noticia.data | date:'dd-MM-yyyy HH:mm:ss'}}</span></td>
                     <td><img ng-src="http://www.gravatar.com/avatar/{{noticia.imagem}}" alt="Description" /></td>
-                    <td ng-if="vm.isLogged"><a ui-sref='noticia({Id: noticia.id})' ng-click="vm.detailNoticia = lancamento" class="btn btn-default" data-toggle="modal" data-target="#detail-modal"><span class="glyphicon glyphicon-zoom-in"></span>
-                    <td ng-if="vm.isLogged"><a ui-sref='noticia({Id: noticia.id})' ng-click="vm.editNoticia = lancamento" class="btn btn-default" data-toggle="modal" data-target="#edit-modal"><span class="glyphicon glyphicon-edit"></span>
+                    <td ng-if="vm.isLogged"><a ui-sref='noticia({Id: noticia.id})' ng-click="vm.detailNoticia = noticia" class="btn btn-default" data-toggle="modal" data-target="#detail-modal"><span class="glyphicon glyphicon-zoom-in"></span>
+                    <td ng-if="vm.isLogged"><a ui-sref='noticia({Id: noticia.id})' ng-click="vm.editNoticia = noticia" class="btn btn-default" data-toggle="modal" data-target="#edit-modal"><span class="glyphicon glyphicon-edit"></span>
                     <td ng-if="vm.isLogged"><a ui-sref='noticia({Id: noticia.id})' ng-click="vm.remove(noticia.id)" class="btn btn-default"><span class="glyphicon glyphicon-erase"></span>
                     </a></td>
                 </tr>
@@ -101,7 +101,7 @@
                                 </div>
 
                                 <label>Autor:</label>
-                            <input class="form-control" type="text" ng-model="vm.noticia.autor" name="autor" placeholder="autor" ng-required="true" ng-minlength="4" ng-minlength="20"/>
+                            <input class="form-control" type="text" ng-model="vm.noticia.autor" name="autor" placeholder="autor" ng-required="true" ng-minlength="3" ng-minlength="20"/>
 
                             </div>
 
