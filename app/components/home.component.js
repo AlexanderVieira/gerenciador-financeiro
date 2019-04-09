@@ -8,6 +8,7 @@
             var vm = this;
             vm.noticias = [];
             vm.noticia = {};
+            vm.ocultar = true;
 
             vm.$onInit = function () {
                 noticiaService.getAll().then(function (response) {

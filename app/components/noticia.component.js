@@ -3,7 +3,7 @@
 
     angular.module('gfpApp').component('noticia', {
         bindings:{
-            noticiaId: '=Id',
+            id: '<',
             titulo: '<',
             mensagem: '<',
             autor: '<',
@@ -14,7 +14,7 @@
             update: '&'
         },
         controllerAs: 'vm',
-        controller: function (noticiaService) {
+        controller: function (noticiaService, $sessionStorage, $timeout) {
 
             var vm = this;
             vm.noticias = [];
@@ -23,35 +23,52 @@
             vm.detailNoticia = {};
             vm.ocultar = true;
 
+            let sessionIsLogged = $sessionStorage.isLogged;
+            if (sessionIsLogged == null) {
+                vm.isLogged = $sessionStorage.isLogged = false;
+            }
+            vm.isLogged = $sessionStorage.isLogged;
+
             vm.$onInit = function () {
 
                 noticiaService.getAll().then(function (response) {
+
                     vm.noticias = response;
                 });
 
                 vm.add = function (noticia) {
 
-                    noticiaService.add(noticia);
-                    let noticiaStorage = localStorage.getItem('noticias');
-                    var lista = angular.fromJson(noticiaStorage);
-                    vm.noticias = lista;
+                    $sessionStorage.successMessagebool = true;
+                    vm.successMessagebool = $sessionStorage.successMessagebool;
+
+                    $timeout(function () {
+                        $sessionStorage.successMessagebool = false;
+                        vm.successMessagebool = $sessionStorage.successMessagebool;
+                    },2000);
+
+                    var novalista = noticiaService.add(noticia);
+                    vm.noticias = novalista;
 
                 };
 
                 vm.remove = function(noticiaId){
 
-                    noticiaService.remove(noticiaId);
-                    let noticiaStorage = localStorage.getItem('noticias');
-                    var lista = angular.fromJson(noticiaStorage);
-                    vm.noticias = lista;
+                    var novaLista = noticiaService.remove(noticiaId);
+                    vm.noticias = novaLista;
                 };
 
                 vm.update = function (noticia) {
 
-                    noticiaService.update(noticia);
-                    var noticiaStorage = localStorage.getItem('noticias');
-                    var lista = angular.fromJson(noticiaStorage);
-                    vm.noticias = lista;
+                    $sessionStorage.successMessagebool = true;
+                    vm.successMessagebool = $sessionStorage.successMessagebool;
+
+                    $timeout(function () {
+                        $sessionStorage.successMessagebool = false;
+                        vm.successMessagebool = $sessionStorage.successMessagebool;
+                    },2000);
+
+                    var novaLista = noticiaService.update(noticia);
+                    vm.noticias = novaLista;
                 }
             };
         },

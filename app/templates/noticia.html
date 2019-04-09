@@ -4,17 +4,16 @@
     </div>
 
     <div class="add-cat">
-        <button type="button" class="btn btn btn-success" data-toggle="modal" data-target="#myModal">Adicionar</button>
-        <button type="button" class="btn btn btn-success" data-toggle="modal" data-target="#delModal">Remover</button>
+        <button type="button" class="btn btn btn-success" data-toggle="modal" data-target="#add-modal" ng-if="vm.isLogged">Adicionar</button>
     </div>
 
     <div class="panel panel-primary">
-        <div class="panel-heading">Mensagens</div>
+        <div class="panel-heading">Notícias</div>
         <div class="panel-body">
             <table class="table">
                 <thead>
                 <tr>
-                    <th>Id</th>
+                    <th ng-hide="vm.ocultar">Id</th>
                     <th>Título</th>
                     <th>Mensagem</th>
                     <th>Autor</th>
@@ -24,12 +23,16 @@
                 </thead>
                 <tbody>
                 <tr ng-repeat="noticia in vm.noticias">
-                    <td>{{noticia.id}}</td>
+                    <td ng-hide="vm.ocultar">{{noticia.id}}</td>
                     <td>{{noticia.titulo}}</td>
                     <td>{{noticia.mensagem}}</td>
                     <td>{{noticia.autor}}</td>
-                    <td>{{noticia.data}}</td>
-                    <td>{{noticia.imagem}}</td>
+                    <td><span>{{noticia.data | date:'dd-MM-yyyy HH:mm:ss'}}</span></td>
+                    <td><img ng-src="http://www.gravatar.com/avatar/{{noticia.imagem}}" alt="Description" /></td>
+                    <td ng-if="vm.isLogged"><a ui-sref='noticia({Id: noticia.id})' ng-click="vm.detailNoticia = lancamento" class="btn btn-default" data-toggle="modal" data-target="#detail-modal"><span class="glyphicon glyphicon-zoom-in"></span>
+                    <td ng-if="vm.isLogged"><a ui-sref='noticia({Id: noticia.id})' ng-click="vm.editNoticia = lancamento" class="btn btn-default" data-toggle="modal" data-target="#edit-modal"><span class="glyphicon glyphicon-edit"></span>
+                    <td ng-if="vm.isLogged"><a ui-sref='noticia({Id: noticia.id})' ng-click="vm.remove(noticia.id)" class="btn btn-default"><span class="glyphicon glyphicon-erase"></span>
+                    </a></td>
                 </tr>
                 </tbody>
             </table>
@@ -38,61 +41,75 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="myModal" role="dialog">
+<div class="modal fade" id="add-modal" role="dialog">
     <div class="modal-dialog">
 
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Adicionar Mensagens</h4>
+                <h4 class="modal-title">Adicionar Notícias</h4>
+
+                <div class="alert alert-success alert-dismissible" role="alert" ng-show="vm.successMessagebool">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>Congratulations!</strong> Now you're ready to do the <a href="#" class="alert-link">next shoelace</a>.
+                </div>
+
             </div>
             <div class="modal-body">
                 <section>
-                    <div class="add-task">
-                        <form name="taskForm">
-                            <label>Id:</label>
-                            <input class="form-control" type="text" ng-model="vm.noticia.id" name="id" placeholder="identificador" ng-required="true"/>
-                            <label>Título:</label>
-                            <input class="form-control" type="text" ng-model="vm.noticia.titulo" name="titulo" placeholder="titulo" ng-required="true" ng-minlength="4"/>
-                            <label>Mensagem:</label>
-                            <input class="form-control" type="text" ng-model="vm.noticia.mensagem" name="mensagem" placeholder="mensagem" ng-required="true" ng-minlength="4"/>
-                            <label>Autor:</label>
-                            <input class="form-control" type="text" ng-model="vm.noticia.autor" name="autor" placeholder="autor" ng-required="true" ng-minlength="4"/>
-                            <button type="button" class="btn btn-primary" ng-click="vm.add(vm.noticia)">Adicionar</button>
-                        </form>
-                        <!-- <div ng-messages="taskForm.name.$error" class="alert alert-danger">
-                         <div ng-message="riquired">
-                                O campo tarefa é obrigatório!
-                            </div>
-                            <div ng-message="minlength">
-                                O campo nome deve ter no mínimo 4 caracteres.
-                            </div>
-                        </div>
-                        <div ng-messages="taskForm.category.$error" class="alert alert-danger">
-                            <div ng-message="riquired">
-                                O campo categoria é obrigatório!
-                            </div>
-                            <div ng-message="minlength">
-                                O campo categoria deve ter no mínimo 4 caracteres.
-                            </div>
-                        </div>      -->
+                    <div class="add-noticia">
+                        <form name="addNoticiaForm">
+                            <label ng-hide="vm.ocultar">Id:</label>
+                            <input class="form-control" type="number" ng-hide="vm.ocultar" ng-model="vm.noticia.id" name="id" placeholder="identificador" ng-required="false"/>
 
-                        <div ng-show = "taskForm.name.$error.required && taskForm.name.$dirty" class="alert alert-danger">
-                            O campo tarefa é obrigatório!
-                        </div>
-                        <div ng-show = "taskForm.name.$error.minlength" class="alert alert-danger" class="alert alert-danger">
-                            O campo tarefa deve ter no mínimo 4 caracteres.
-                        </div>
-                        <div ng-show = "taskForm.category.$error.required && taskForm.name.$dirty" class="alert alert-danger">
-                            O campo categoria é obrigatório!
-                        </div>
-                        <div ng-show = "taskForm.category.$error.minlength" class="alert alert-danger">
-                            O campo categoria deve ter no mínimo 4 caracteres.
-                        </div>
-                        <div ng-show = "taskForm.done.$error.required && taskForm.name.$dirty" class="alert alert-danger">
-                            O campo status: true ou false é obrigatório!
-                        </div>
+                            <div ng-class="{'has-error':addNoticiaForm.titulo.$invalid &&
+                                    addNoticiaForm.titulo.$dirty}">
+
+                                <div ng-messages="addNoticiaForm.titulo.$error" style="color:#9f191f" role="alert">
+                                    <div ng-message="required" ng-if="addNoticiaForm.titulo.$dirty" class="alert alert-danger">You did not enter a field</div>
+                                    <div ng-message="minlength" class="alert alert-danger">Your field is too short</div>
+                                    <div ng-message="maxlength" class="alert alert-danger">Your field is too long</div>
+                                </div>
+
+                            <label>Título:</label>
+                            <input class="form-control" type="text" ng-model="vm.noticia.titulo" name="titulo" placeholder="titulo" ng-required="true" ng-minlength="4" ng-maxlength="12"/>
+
+                            </div>
+
+                            <div ng-class="{'has-error':addLancForm.mensagem.$invalid &&
+                                    addLancForm.mensagem.$dirty}">
+
+                                <div ng-messages="addNoticiaForm.mensagem.$error" style="color:#9f191f" role="alert">
+                                    <div ng-message="required" ng-if="addNoticiaForm.mensagem.$dirty" class="alert alert-danger">You did not enter a field</div>
+                                    <div ng-message="minlength" class="alert alert-danger">Your field is too short</div>
+                                    <div ng-message="maxlength" class="alert alert-danger">Your field is too long</div>
+                                </div>
+
+                                <label>Mensagem:</label>
+                            <input class="form-control" type="text" ng-model="vm.noticia.mensagem" name="mensagem" placeholder="mensagem" ng-required="true" ng-minlength="4" ng-minlength="50"/>
+
+                            </div>
+
+                            <div ng-class="{'has-error':addLancForm.autor.$invalid &&
+                                    addLancForm.autor.$dirty}">
+
+                                <div ng-messages="addNoticiaForm.autor.$error" style="color:#9f191f" role="alert">
+                                    <div ng-message="required" ng-if="addNoticiaForm.autor.$dirty" class="alert alert-danger">You did not enter a field</div>
+                                    <div ng-message="minlength" class="alert alert-danger">Your field is too short</div>
+                                    <div ng-message="maxlength" class="alert alert-danger">Your field is too long</div>
+                                </div>
+
+                                <label>Autor:</label>
+                            <input class="form-control" type="text" ng-model="vm.noticia.autor" name="autor" placeholder="autor" ng-required="true" ng-minlength="4" ng-minlength="20"/>
+
+                            </div>
+
+                            <label>Data:</label>
+                            <input class="form-control" type="datetime-local" ng-model="vm.noticia.data" name="data" placeholder="data" ng-required="true"/>
+
+                            <button type="button" class="btn btn-primary" ng-disabled="addNoticiaForm.$invalid" ng-click="vm.add(vm.noticia)">Adicionar</button>
+                        </form>
                     </div>
                 </section>
 
@@ -104,44 +121,111 @@
     </div>
 </div>
 
-<div class="modal fade" id="delModal" role="dialog">
+<div class="modal fade" id="detail-modal" role="dialog">
     <div class="modal-dialog">
 
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Remover Mensagem</h4>
+                <h4 class="modal-title">Detalhamento de Notícias</h4>
+
+                <div class="alert alert-success alert-dismissible" role="alert" ng-show="vm.successMessagebool">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>Congratulations!</strong> Now you're ready to do the <a href="#" class="alert-link">next shoelace</a>.
+                </div>
+
             </div>
             <div class="modal-body">
                 <section>
-                    <div class="add-task">
-                        <form name="taskForm">
-                            <label>Id:</label>
-                            <input class="form-control" type="text" ng-model="vm.noticia.id" name="id" placeholder="identificador" ng-required="true"/>
+                    <div class="detail-noticia">
+                        <form name="detailNoticiaForm">
+                            <label ng-hide="vm.ocultar">Id:</label>
+                            <input class="form-control" type="text" ng-hide="vm.ocultar" ng-readonly="true" ng-model="vm.detailNoticia.id" name="id" placeholder="identificador" ng-required="false"/>
                             <label>Ttulo:</label>
-                            <input class="form-control" type="text" ng-model="vm.noticia.titulo" name="titulo" placeholder="titulo" ng-required="true" ng-minlength="4"/>
+                            <input class="form-control" type="text" ng-readonly="true" ng-model="vm.detailNoticia.titulo" name="titulo" placeholder="titulo" ng-required="true" ng-minlength="4"/>
                             <label>Mensagem:</label>
-                            <input class="form-control" type="text" ng-model="vm.noticia.mensagem" name="mensagem" placeholder="mensagem" ng-required="true" ng-minlength="4"/>
+                            <input class="form-control" type="text" ng-readonly="true" ng-model="vm.detailNoticia.mensagem" name="mensagem" placeholder="mensagem" ng-required="true" ng-minlength="4"/>
                             <label>Autor:</label>
-                            <input class="form-control" type="text" ng-model="vm.noticia.autor" name="autor" placeholder="autor" ng-required="true" ng-minlength="4"/>
-                            <button type="button" class="btn btn-primary" ng-click="vm.remove(vm.noticia)">Remover</button>
+                            <input class="form-control" type="text" ng-readonly="true" ng-model="vm.detailNoticia.autor" name="autor" placeholder="autor" ng-required="true" ng-minlength="4"/>
+                            <label>Data:</label>
+                            <input class="form-control" type="datetime-local" ng-readonly="true" ng-model="vm.detailNoticia.data" name="data" placeholder="data" ng-required="true"/>
                         </form>
-                        <div ng-show = "taskForm.name.$error.required && taskForm.name.$dirty" class="alert alert-danger">
-                            O campo tarefa é obrigatório!
-                        </div>
-                        <div ng-show = "taskForm.name.$error.minlength" class="alert alert-danger" class="alert alert-danger">
-                            O campo tarefa deve ter no mínimo 4 caracteres.
-                        </div>
-                        <div ng-show = "taskForm.category.$error.required && taskForm.name.$dirty" class="alert alert-danger">
-                            O campo categoria é obrigatório!
-                        </div>
-                        <div ng-show = "taskForm.category.$error.minlength" class="alert alert-danger">
-                            O campo categoria deve ter no mínimo 4 caracteres.
-                        </div>
-                        <div ng-show = "taskForm.done.$error.required && taskForm.name.$dirty" class="alert alert-danger">
-                            O campo status: true ou false é obrigatório!
-                        </div>
+                    </div>
+                </section>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="edit-modal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Atualizar Notícias</h4>
+            </div>
+            <div class="modal-body">
+                <section>
+                    <div class="edit-noticia">
+                        <form name="editNoticiaForm">
+                            <label ng-hide="vm.ocultar">Id:</label>
+                            <input class="form-control" type="number" ng-hide="vm.ocultar" ng-model="vm.editNoticia.id" name="id" placeholder="identificador" ng-required="true"/>
+
+                            <div ng-class="{'has-error':editNoticiaForm.titulo.$invalid &&
+                                    editNoticiaForm.titulo.$dirty}">
+
+                                <div ng-messages="editNoticiaForm.titulo.$error" style="color:#9f191f" role="alert">
+                                    <div ng-message="required" ng-if="editNoticiaForm.titulo.$dirty" class="alert alert-danger">You did not enter a field</div>
+                                    <div ng-message="minlength" class="alert alert-danger">Your field is too short</div>
+                                    <div ng-message="maxlength" class="alert alert-danger">Your field is too long</div>
+                                </div>
+
+                                <label>Título:</label>
+                                <input class="form-control" type="text" ng-model="vm.editNoticia.titulo" name="titulo" placeholder="titulo" ng-required="true" ng-minlength="4"/>
+
+                            </div>
+
+                            <div ng-class="{'has-error':editNoticiaForm.mensagem.$invalid &&
+                                    editNoticiaForm.mensagem.$dirty}">
+
+                                <div ng-messages="editNoticiaForm.mensagem.$error" style="color:#9f191f" role="alert">
+                                    <div ng-message="required" ng-if="addNoticiaForm.mensagem.$dirty" class="alert alert-danger">You did not enter a field</div>
+                                    <div ng-message="minlength" class="alert alert-danger">Your field is too short</div>
+                                    <div ng-message="maxlength" class="alert alert-danger">Your field is too long</div>
+                                </div>
+
+                                <label>Mensagem:</label>
+                                <input class="form-control" type="text" ng-model="vm.editNoticia.mensagem" name="mensagem" placeholder="mensagem" ng-required="true" ng-minlength="4"/>
+
+                            </div>
+
+                            <div ng-class="{'has-error':editNoticiaForm.autor.$invalid &&
+                                    editNoticiaForm.autor.$dirty}">
+
+                                <div ng-messages="editNoticiaForm.autor.$error" style="color:#9f191f" role="alert">
+                                    <div ng-message="required" ng-if="editNoticiaForm.autor.$dirty" class="alert alert-danger">You did not enter a field</div>
+                                    <div ng-message="minlength" class="alert alert-danger">Your field is too short</div>
+                                    <div ng-message="maxlength" class="alert alert-danger">Your field is too long</div>
+                                </div>
+
+                                <label>Autor:</label>
+                                <input class="form-control" type="text" ng-model="vm.editNoticia.autor" name="autor" placeholder="autor" ng-required="true" ng-minlength="4"/>
+
+                            </div>
+
+                            <label>Data:</label>
+                            <input class="form-control" type="datetime-local" ng-model="vm.editNoticiaForm.data" name="data" placeholder="data" ng-required="true"/>
+
+                            <button type="button" class="btn btn-primary" editNoticiaForm ng-click="vm.update(vm.editNoticia)">Atualizar</button>
+                        </form>
                     </div>
                 </section>
 

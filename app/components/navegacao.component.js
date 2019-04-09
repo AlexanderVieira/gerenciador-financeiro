@@ -7,9 +7,7 @@
 
             var vm = this;
             let sessionIsLogged = $sessionStorage.isLogged;
-
             if (sessionIsLogged == null) {
-
                 vm.isLogged = $sessionStorage.isLogged = false;
             }
             vm.isLogged = $sessionStorage.isLogged;

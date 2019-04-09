@@ -36,46 +36,50 @@
 
         function add(lancamento) {
 
-            let lancamentoStorage = localStorage.getItem(key);
-            var lista = angular.fromJson(lancamentoStorage);
+            var lancamentos = angular.fromJson(localStorage.getItem(key));
 
-            if (lancamento.id === null){
-
-                lancamento.id = lista.length + 1;
-                let index = lista.findIndex(c => c.id === lancamento.id);
-                console.log(index);
-                if(index < 0) {
-                    lista.push(lancamento);
-                }
+            lancamento.id = lancamentos.length + 1;
+            let index = lancamentos.findIndex(c => c.id === lancamento.id);
+            console.log(index);
+            if(index < 0) {
+                lancamentos.push(lancamento);
+                localStorage.setItem(key, angular.toJson(lancamentos));
+                return angular.fromJson(localStorage.getItem(key));
             }
-            localStorage.setItem(key, angular.toJson(lista));
+
         }
 
         function remove(lancamentoId) {
 
-            let lancamentoStorage = localStorage.getItem(key);
-            var lista = angular.fromJson(lancamentoStorage);
+            var lancamentos = angular.fromJson(localStorage.getItem(key));
 
             if (lancamentoId != null){
-                let index = lista.findIndex(c => c.id === lancamentoId);
+                let index = lancamentos.findIndex(c => c.id === lancamentoId);
                 console.log(index);
-                lista.splice(index, 1);
+                lancamentos.splice(index, 1);
+                localStorage.setItem(key, angular.toJson(lancamentos));
+                return angular.fromJson(localStorage.getItem(key));
             }
-            localStorage.setItem(key, angular.toJson(lista));
         }
 
         function update(lancamento) {
 
-            let lancamentoStorage = localStorage.getItem(key);
-            var lista = angular.fromJson(lancamentoStorage);
+            var lancamentos = angular.fromJson(localStorage.getItem(key));
 
             if (lancamento.id != null){
 
-                let index = lista.findIndex(c => c.id === lancamento.id);
-                var obj = lista[index];
+                let index = lancamentos.findIndex(c => c.id === lancamento.id);
+                var obj = lancamentos[index];
                 obj.nome = lancamento.nome;
                 obj.descricao = lancamento.descricao;
-                localStorage.setItem(key, angular.toJson(lista));
+                obj.valor = lancamento.valor;
+                obj.receita = lancamento.receita;
+                obj.categoria = lancamento.categoria;
+                obj.data = lancamento.data;
+                obj.repeticoes = lancamento.repeticoes;
+                obj.repetitividade = lancamento.repetitividade;
+                localStorage.setItem(key, angular.toJson(lancamentos));
+                return angular.fromJson(localStorage.getItem(key));
             }
 
         }

@@ -5,9 +5,9 @@
         </div>
         <ul class="nav navbar-nav">
             <li class="active"><a ui-sref='home' href>Home</a></li>
-            <li><a ui-sref='noticia'>Notícias</a></li>
-            <li><a ui-sref='categoria'>Categorias</a></li>
-            <li><a ui-sref='lancamento'>Lançamentos</a></li>
+            <li><a ui-sref='noticia' ng-if="vm.isLogged">Notícias</a></li>
+            <li><a ui-sref='categoria' ng-if="vm.isLogged">Categorias</a></li>
+            <li><a ui-sref='lancamento' ng-if="vm.isLogged">Lançamentos</a></li>
         </ul>
         <form class="navbar-form navbar-left" action="/">
             <div class="input-group">

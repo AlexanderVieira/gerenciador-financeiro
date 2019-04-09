@@ -3,8 +3,8 @@
         <h3>Lançamentos</h3>
     </div>
 
-    <div class="add-cat">
-        <button type="button" class="btn btn btn-success" data-toggle="modal" data-target="#add-modal">Adicionar</button>
+    <div class="btn-add-cat">
+        <button type="button" class="btn btn btn-success" data-toggle="modal" data-target="#add-modal" ng-if="vm.isLogged">Adicionar</button>
     </div>
 
     <div class="panel panel-primary">
@@ -32,12 +32,12 @@
                     <td>{{lancamento.valor}}</td>
                     <td>{{lancamento.receita}}</td>
                     <td>{{lancamento.categoria}}</td>
-                    <td>{{lancamento.data}}</td>
+                    <td><span>{{lancamento.data | date:'dd-MM-yyyy HH:mm:ss'}}</span></td>
                     <td>{{lancamento.repeticoes}}</td>
                     <td>{{lancamento.repetitividade}}</td>
-                    <td><a ui-sref='lancamento({Id: lancamento.id})' ng-click="vm.detailLancamento = lancamento" class="btn btn-default" data-toggle="modal" data-target="#detail-modal"><span class="glyphicon glyphicon-zoom-in"></span>
-                    <td><a ui-sref='lancamento({Id: lancamento.id})' ng-click="vm.editLancamento = lancamento" class="btn btn-default" data-toggle="modal" data-target="#edit-modal"><span class="glyphicon glyphicon-edit"></span>
-                    <td><a ui-sref='lancamento({Id: lancamento.id})' ng-click="vm.remove(lancamento.id)" class="btn btn-default"><span class="glyphicon glyphicon-erase"></span>
+                    <td ng-if="vm.isLogged"><a ui-sref='lancamento({Id: lancamento.id})' ng-click="vm.detailLancamento = lancamento" class="btn btn-default" data-toggle="modal" data-target="#detail-modal"><span class="glyphicon glyphicon-zoom-in"></span>
+                    <td ng-if="vm.isLogged"><a ui-sref='lancamento({Id: lancamento.id})' ng-click="vm.editLancamento = lancamento" class="btn btn-default" data-toggle="modal" data-target="#edit-modal"><span class="glyphicon glyphicon-edit"></span>
+                    <td ng-if="vm.isLogged"><a ui-sref='lancamento({Id: lancamento.id})' ng-click="vm.remove(lancamento.id)" class="btn btn-default"><span class="glyphicon glyphicon-erase"></span>
                     </a></td>
                 </tr>
                 </tbody>
@@ -55,63 +55,120 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Adicionar Lançamentos</h4>
+
+                <div class="alert alert-success alert-dismissible" role="alert" ng-show="vm.successMessagebool">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>Congratulations!</strong> Now you're ready to do the <a href="#" class="alert-link">next shoelace</a>.
+                </div>
+
             </div>
             <div class="modal-body">
                 <section>
                     <div class="add-lancamento">
-                        <form name="add-form">
+                        <form name="addLancForm">
+
                             <label ng-hide="vm.ocultar">Id:</label>
                             <input class="form-control" type="text" ng-hide="vm.ocultar" ng-model="vm.lancamento.id" name="id" placeholder="identificador" ng-required="true"/>
+
+                            <div ng-class="{'has-error':addLancForm.nome.$invalid &&
+                                    addLancForm.nome.$dirty}">
+
+                            <div ng-messages="addLancForm.nome.$error" style="color:#9f191f" role="alert">
+                                <div ng-message="required" ng-if="addLancForm.nome.$dirty" class="alert alert-danger">You did not enter a field</div>
+                                <div ng-message="minlength" class="alert alert-danger">Your field is too short</div>
+                                <div ng-message="maxlength" class="alert alert-danger">Your field is too long</div>
+                            </div>
+
                             <label>Nome:</label>
-                            <input class="form-control" type="text" ng-model="vm.lancamento.nome" name="nome" placeholder="Nome do lançamento" ng-required="true" ng-minlength="4"/>
+                            <input class="form-control" type="text" ng-model="vm.lancamento.nome" name="nome" placeholder="Nome do lançamento" ng-required="true" ng-minlength="4" ng-maxlength="12"/>
+
+                            </div>
+
+                            <div ng-class="{'has-error':addLancForm.descricao.$invalid &&
+                                    addLancForm.descricao.$dirty}">
+
+                            <div ng-messages="addLancForm.descricao.$error" style="color:#9f191f" role="alert">
+                                <div ng-message="required" ng-if="addLancForm.descricao.$dirty" class="alert alert-danger">You did not enter a field</div>
+                                <div ng-message="minlength" class="alert alert-danger">Your field is too short</div>
+                                <div ng-message="maxlength" class="alert alert-danger">Your field is too long</div>
+                            </div>
+
                             <label>Descrição:</label>
-                            <input class="form-control" type="text" ng-model="vm.lancamento.descricao" name="descricao" placeholder="descrição" ng-required="true" ng-minlength="4"/>
+                            <input class="form-control" type="text" ng-model="vm.lancamento.descricao" name="descricao" placeholder="descrição" ng-required="false" ng-minlength="4" ng-maxlength="100"/>
+
+                            </div>
+
+                            <div ng-class="{'has-error':addLancForm.valor.$invalid &&
+                                    addLancForm.valor.$dirty}">
+
+                                <div ng-messages="addLancForm.valor.$error" style="color:#9f191f" role="alert">
+                                <div ng-message="required" ng-if="addLancForm.categoria.$dirty" class="alert alert-danger">You did not enter a field</div>
+                            </div>
+
                             <label>Valor:</label>
-                            <input class="form-control" type="number" ng-model="vm.lancamento.valor" name="valor" placeholder="valor do lançamento" ng-required="true"/>
+                            <input class="form-control" type="text" ng-model="vm.lancamento.valor" name="valor" placeholder="valor do lançamento" ng-required="true"/>
+
+                            </div>
+
+                            <div ng-class="{'has-error':addLancForm.receita.$invalid &&
+                                    addLancForm.receita.$dirty}">
+
+                                <div ng-messages="addLancForm.receita.$error" style="color:#9f191f" role="alert">
+                                <div ng-message="required" ng-if="addLancForm.receita.$dirty" class="alert alert-danger">You did not enter a field</div>
+                            </div>
+
                             <label>Receita:</label>
-                            <input class="form-control" type="checkbox" ng-model="vm.lancamento.receita" name="receita" placeholder="receita" ng-required="true"/>
+                            <input class="form-control" type="checkbox" ng-model="vm.lancamento.receita" name="receita" placeholder="receita" ng-required="false"/>
+
+                            </div>
+
+                            <div ng-class="{'has-error':addLancForm.categoria.$invalid &&
+                                    addLancForm.categoria.$dirty}">
+
+                                <div ng-messages="addLancForm.categoria.$error" style="color:#9f191f" role="alert">
+                                    <div ng-message="required" ng-if="addLancForm.categoria.$dirty" class="alert alert-danger">You did not enter a field</div>
+                                </div>
+
+
                             <label>Categoria:</label>
-                            <input class="form-control" type="text" ng-model="vm.lancamento.categoria" name="categoria" placeholder="Nome do categoria" ng-required="true" ng-minlength="4"/>
+                            <input class="form-control" type="text" ng-model="vm.lancamento.categoria" name="categoria" placeholder="Nome do categoria" ng-required="true" ng-minlength="4" ng-maxlength="12"/>
+
+                            </div>
+
+                            <div ng-messages="addLancForm.data.$error" style="color:#9f191f" role="alert">
+                                <div ng-message="required" ng-if="addLancForm.categoria.$dirty" class="alert alert-danger">You did not enter a field</div>
+                            </div>
+
                             <label>Data:</label>
-                            <input class="form-control" type="date" ng-model="vm.lancamento.data" name="data" placeholder="data" ng-required="true"/>
+                            <input class="form-control" type="datetime-local" ng-model="vm.lancamento.data" name="data" placeholder="data" ng-required="true"/>
+
+
+                            <div ng-class="{'has-error':addLancForm.repeticoes.$invalid &&
+                                    addLancForm.repeticoes.$dirty}">
+
+                            <div ng-messages="addLancForm.repeticoes.$error" style="color:#9f191f" role="alert">
+                                <div ng-message="required" ng-if="addLancForm.categoria.$dirty" class="alert alert-danger">You did not enter a field</div>
+                            </div>
+
                             <label>Repetições:</label>
                             <input class="form-control" type="number" ng-model="vm.lancamento.repeticoes" name="repeticoes" placeholder="repeticoes" ng-required="true"/>
+
+                            </div>
+
+                            <div ng-class="{'has-error':addLancForm.repetitividade.$invalid &&
+                                    addLancForm.repetitividade.$dirty}">
+
+                            <div ng-messages="addLancForm.repetitividade.$error" style="color:#9f191f" role="alert">
+                                <div ng-message="required" ng-if="addLancForm.categoria.$dirty" class="alert alert-danger">You did not enter a field</div>
+                            </div>
+
                             <label>Repetitividade:</label>
-                            <input class="form-control" type="number" ng-model="vm.lancamento.repetitividade" name="repetitividade" placeholder="repetitividade" ng-required="true"/>
+                            <input class="form-control" type="text" ng-model="vm.lancamento.repetitividade" name="repetitividade" placeholder="repetitividade" ng-required="true"/>
+
+                            </div>
+
                             <button type="button" class="btn btn-primary" ng-click="vm.add(vm.lancamento)">Adicionar</button>
                         </form>
-                        <!-- <div ng-messages="taskForm.name.$error" class="alert alert-danger">
-                         <div ng-message="riquired">
-                                O campo tarefa é obrigatório!
-                            </div>
-                            <div ng-message="minlength">
-                                O campo nome deve ter no mínimo 4 caracteres.
-                            </div>
-                        </div>
-                        <div ng-messages="taskForm.category.$error" class="alert alert-danger">
-                            <div ng-message="riquired">
-                                O campo categoria é obrigatório!
-                            </div>
-                            <div ng-message="minlength">
-                                O campo categoria deve ter no mínimo 4 caracteres.
-                            </div>
-                        </div>      -->
-
-                        <div ng-show = "add-form.nome.$error.required && add-form.nome.$dirty" class="alert alert-danger">
-                            O campo tarefa é obrigatório!
-                        </div>
-                        <div ng-show = "add-form.nome.$error.minlength" class="alert alert-danger" class="alert alert-danger">
-                            O campo tarefa deve ter no mínimo 4 caracteres.
-                        </div>
-                        <div ng-show = "add-form.categoria.$error.required && add-form.categoria.$dirty" class="alert alert-danger">
-                            O campo categoria é obrigatório!
-                        </div>
-                        <div ng-show = "add-form.categoria.$error.minlength" class="alert alert-danger">
-                            O campo categoria deve ter no mínimo 4 caracteres.
-                        </div>
-                        <div ng-show = "add-form.receita.$error.required && add-form.receita.$dirty" class="alert alert-danger">
-                            O campo status: true ou false é obrigatório!
-                        </div>
                     </div>
                 </section>
 
@@ -130,64 +187,32 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Remover Lançamentos</h4>
+                <h4 class="modal-title">Detalhamento de Lançamentos</h4>
             </div>
             <div class="modal-body">
                 <section>
                     <div class="detail-lanc">
                         <form name="detail-form">
                             <label ng-hide="vm.ocultar">Id:</label>
-                            <input class="form-control" type="text" ng-hide="vm.ocultar" ng-model="vm.lancamento.id" name="id" placeholder="identificador" ng-required="true"/>
+                            <input class="form-control" type="text" ng-hide="vm.ocultar" ng-model="vm.detailLancamento.id" name="id" placeholder="identificador" ng-required="true"/>
                             <label>Nome:</label>
-                            <input class="form-control" type="text" ng-readonly="true" ng-model="vm.lancamento.nome" name="nome" placeholder="Nome do lançamento" ng-required="true" ng-minlength="4"/>
+                            <input class="form-control" type="text" ng-readonly="true" ng-model="vm.detailLancamento.nome" name="nome" placeholder="Nome do lançamento" ng-required="true" ng-minlength="4"/>
                             <label>Descrição:</label>
-                            <input class="form-control" type="text" ng-readonly="true" ng-model="vm.lancamento.descricao" name="descricao" placeholder="descrição" ng-required="true" ng-minlength="4"/>
+                            <input class="form-control" type="text" ng-readonly="true" ng-model="vm.detailLancamento.descricao" name="descricao" placeholder="descrição" ng-required="true" ng-minlength="4"/>
                             <label>Valor:</label>
-                            <input class="form-control" type="number" ng-readonly="true" ng-model="vm.lancamento.valor" name="valor" placeholder="valor do lançamento" ng-required="true"/>
+                            <input class="form-control" type="text" ng-readonly="true" ng-model="vm.detailLancamento.valor" name="valor" placeholder="valor do lançamento" ng-required="true"/>
                             <label>Receita:</label>
-                            <input class="form-control" type="checkbox" ng-readonly="true" ng-model="vm.lancamento.receita" name="receita" placeholder="receita" ng-required="true"/>
+                            <input class="form-control" type="checkbox" ng-readonly="true" ng-model="vm.detailLancamento.receita" name="receita" placeholder="receita" ng-required="true"/>
                             <label>Categoria:</label>
-                            <input class="form-control" type="text" ng-readonly="true" ng-model="vm.lancamento.categoria" name="categoria" placeholder="Nome da categoria" ng-required="true" ng-minlength="4"/>
+                            <input class="form-control" type="text" ng-readonly="true" ng-model="vm.detailLancamento.categoria" name="categoria" placeholder="Nome da categoria" ng-required="true" ng-minlength="4"/>
                             <label>Data:</label>
-                            <input class="form-control" type="date" ng-readonly="true" ng-model="vm.lancamento.data" name="data" placeholder="data" ng-required="true"/>
+                            <input class="form-control" type="datetime-local" ng-readonly="true" ng-model="vm.detailLancamento.data" name="data" placeholder="data" ng-required="true"/>
                             <label>Repetiçôes:</label>
-                            <input class="form-control" type="number" ng-readonly="true" ng-model="vm.lancamento.repeticoes" name="repeticoes" placeholder="repeticoes" ng-required="true"/>
+                            <input class="form-control" type="number" ng-readonly="true" ng-model="vm.detailLancamento.repeticoes" name="repeticoes" placeholder="repeticoes" ng-required="true"/>
                             <label>Repetitividade:</label>
-                            <input class="form-control" type="number" ng-readonly="true" ng-model="vm.lancamento.repetitividade" name="repetitividade" placeholder="repetitividade" ng-required="true"/>
-                            <button type="button" class="btn btn-primary" ng-click="vm.add(vm.lancamento)">Adicionar</button>
-                        </form>
-                        <!-- <div ng-messages="taskForm.name.$error" class="alert alert-danger">
-                         <div ng-message="riquired">
-                                O campo tarefa é obrigatório!
-                            </div>
-                            <div ng-message="minlength">
-                                O campo nome deve ter no mínimo 4 caracteres.
-                            </div>
-                        </div>
-                        <div ng-messages="taskForm.category.$error" class="alert alert-danger">
-                            <div ng-message="riquired">
-                                O campo categoria é obrigatório!
-                            </div>
-                            <div ng-message="minlength">
-                                O campo categoria deve ter no mínimo 4 caracteres.
-                            </div>
-                        </div>      -->
+                            <input class="form-control" type="text" ng-readonly="true" ng-model="vm.detailLancamento.repetitividade" name="repetitividade" placeholder="repetitividade" ng-required="true"/>
 
-                        <div ng-show = "detail-form.nome.$error.required && detail-form.nome.$dirty" class="alert alert-danger">
-                            O campo tarefa é obrigatório!
-                        </div>
-                        <div ng-show = "detail-form.nome.$error.minlength" class="alert alert-danger" class="alert alert-danger">
-                            O campo tarefa deve ter no mínimo 4 caracteres.
-                        </div>
-                        <div ng-show = "detail-form.categoria.$error.required && detail-form.categoria.$dirty" class="alert alert-danger">
-                            O campo categoria é obrigatório!
-                        </div>
-                        <div ng-show = "detail-form.categoria.$error.minlength" class="alert alert-danger">
-                            O campo categoria deve ter no mínimo 4 caracteres.
-                        </div>
-                        <div ng-show = "detail-form.receita.$error.required && detail-form.receita.$dirty" class="alert alert-danger">
-                            O campo status: true ou false é obrigatório!
-                        </div>
+                        </form>
                     </div>
                 </section>
 
@@ -207,64 +232,123 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Adicionar Lançamentos</h4>
+                <h4 class="modal-title">Atualizar Lançamentos</h4>
+
+                <div class="alert alert-success alert-dismissible" role="alert" ng-show="vm.successMessagebool">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>Congratulations!</strong> Now you're ready to do the <a href="#" class="alert-link">next shoelace</a>.
+                </div>
+
             </div>
             <div class="modal-body">
                 <section>
                     <div class="edit-lanc">
-                        <form name="edit-form">
-                            <label ng-hide="vm.ocultar">Id:</label>
-                            <input class="form-control" type="text" ng-hide="vm.ocultar" ng-model="vm.lancamento.id" name="id" placeholder="identificador" ng-required="true"/>
-                            <label>Nome:</label>
-                            <input class="form-control" type="text" ng-model="vm.lancamento.nome" name="nome" placeholder="Nome do lançamento" ng-required="true" ng-minlength="4"/>
-                            <label>Descrição:</label>
-                            <input class="form-control" type="text" ng-model="vm.lancamento.descricao" name="descricao" placeholder="descrição" ng-required="true" ng-minlength="4"/>
-                            <label>Valor:</label>
-                            <input class="form-control" type="number" ng-model="vm.lancamento.valor" name="valor" placeholder="valor do lançamento" ng-required="true"/>
-                            <label>Receita:</label>
-                            <input class="form-control" type="checkbox" ng-model="vm.lancamento.receita" name="receita" placeholder="receita" ng-required="true"/>
-                            <label>Categoria:</label>
-                            <input class="form-control" type="text" ng-model="vm.lancamento.categoria" name="categoria" placeholder="Nome da categoria" ng-required="true" ng-minlength="4"/>
-                            <label>Data:</label>
-                            <input class="form-control" type="date" ng-model="vm.lancamento.data" name="data" placeholder="data" ng-required="true"/>
-                            <label>Repetiçôes:</label>
-                            <input class="form-control" type="number" ng-model="vm.lancamento.repeticoes" name="repeticoes" placeholder="repeticoes" ng-required="true"/>
-                            <label>Repetitividade:</label>
-                            <input class="form-control" type="number" ng-model="vm.lancamento.repetitividade" name="repetitividade" placeholder="repetitividade" ng-required="true"/>
-                            <button type="button" class="btn btn-primary" ng-click="vm.add(vm.lancamento)">Adicionar</button>
-                        </form>
-                        <!-- <div ng-messages="taskForm.name.$error" class="alert alert-danger">
-                         <div ng-message="riquired">
-                                O campo tarefa é obrigatório!
-                            </div>
-                            <div ng-message="minlength">
-                                O campo nome deve ter no mínimo 4 caracteres.
-                            </div>
-                        </div>
-                        <div ng-messages="taskForm.category.$error" class="alert alert-danger">
-                            <div ng-message="riquired">
-                                O campo categoria é obrigatório!
-                            </div>
-                            <div ng-message="minlength">
-                                O campo categoria deve ter no mínimo 4 caracteres.
-                            </div>
-                        </div>      -->
+                        <form name="editLancForm">
 
-                        <div ng-show = "edit-form.nome.$error.required && edit-form.nome.$dirty" class="alert alert-danger">
-                            O campo tarefa é obrigatório!
-                        </div>
-                        <div ng-show = "edit-form.nome.$error.minlength" class="alert alert-danger" class="alert alert-danger">
-                            O campo tarefa deve ter no mínimo 4 caracteres.
-                        </div>
-                        <div ng-show = "edit-form.categoria.$error.required && edit-form.categoria.$dirty" class="alert alert-danger">
-                            O campo categoria é obrigatório!
-                        </div>
-                        <div ng-show = "edit-form.categoria.$error.minlength" class="alert alert-danger">
-                            O campo categoria deve ter no mínimo 4 caracteres.
-                        </div>
-                        <div ng-show = "edit-form.receita.$error.required && edit-form.receita.$dirty" class="alert alert-danger">
-                            O campo status: true ou false é obrigatório!
-                        </div>
+                            <label ng-hide="vm.ocultar">Id:</label>
+                            <input class="form-control" type="text" ng-hide="vm.ocultar" ng-model="vm.editLancamento.id" name="id" placeholder="identificador" ng-required="true"/>
+
+                            <div ng-class="{'has-error':editLancForm.nome.$invalid &&
+                                    editLancForm.nome.$dirty}">
+
+                                <div ng-messages="editLancForm.nome.$error" style="color:#9f191f" role="alert">
+                                    <div ng-message="required" ng-if="editLancForm.nome.$dirty" class="alert alert-danger">You did not enter a field</div>
+                                    <div ng-message="minlength" class="alert alert-danger">Your field is too short</div>
+                                    <div ng-message="maxlength" class="alert alert-danger">Your field is too long</div>
+                                </div>
+
+                                <label>Nome:</label>
+                                <input class="form-control" type="text" ng-model="vm.editLancamento.nome" name="nome" placeholder="Nome do lançamento" ng-required="true" ng-minlength="4" ng-maxlength="12"/>
+
+                            </div>
+
+                            <div ng-class="{'has-error':editLancForm.descricao.$invalid &&
+                                    editLancForm.descricao.$dirty}">
+
+                                <div ng-messages="editLancForm.descricao.$error" style="color:#9f191f" role="alert">
+                                    <div ng-message="required" ng-if="editLancForm.descricao.$dirty" class="alert alert-danger">You did not enter a field</div>
+                                    <div ng-message="minlength" class="alert alert-danger">Your field is too short</div>
+                                    <div ng-message="maxlength" class="alert alert-danger">Your field is too long</div>
+                                </div>
+
+                                <label>Descrição:</label>
+                                <input class="form-control" type="text" ng-model="vm.editLancamento.descricao" name="descricao" placeholder="descrição" ng-required="false" ng-minlength="4" ng-maxlength="100"/>
+
+                            </div>
+
+                            <div ng-class="{'has-error':editLancForm.valor.$invalid &&
+                                    editLancForm.valor.$dirty}">
+
+                                <div ng-messages="editLancForm.valor.$error" style="color:#9f191f" role="alert">
+                                    <div ng-message="required" ng-if="editLancForm.valor.$dirty" class="alert alert-danger">You did not enter a field</div>
+                                </div>
+
+                                <label>Valor:</label>
+                                <input class="form-control" type="text" ng-model="vm.editLancamento.valor" name="valor" placeholder="valor do lançamento" ng-required="true"/>
+
+                            </div>
+
+                            <div ng-class="{'has-error':editLancForm.receita.$invalid &&
+                                    editLancForm.receita.$dirty}">
+
+                                <div ng-messages="editLancForm.receita.$error" style="color:#9f191f" role="alert">
+                                    <div ng-message="required" class="alert alert-danger">You did not enter a field</div>
+                                </div>
+
+                                <label>Receita:</label>
+                                <input class="form-control" type="checkbox" ng-model="vm.editLancamento.receita" name="receita" placeholder="receita" ng-required="false"/>
+
+                            </div>
+
+                            <div ng-class="{'has-error':editLancForm.categoria.$invalid &&
+                                    editLancForm.categoria.$dirty}">
+
+                                <div ng-messages="editLancForm.categoria.$error" style="color:#9f191f" role="alert">
+                                    <div ng-message="required" ng-if="editLancForm.categoria.$dirty" class="alert alert-danger">You did not enter a field</div>
+                                </div>
+
+
+                                <label>Categoria:</label>
+                                <input class="form-control" type="text" ng-model="vm.editLancamento.categoria" name="categoria" placeholder="Nome do categoria" ng-required="true" ng-minlength="4" ng-maxlength="12"/>
+
+                            </div>
+
+                                <div ng-messages="editLancForm.data.$error" style="color:#9f191f" role="alert">
+                                    <div ng-message="required" class="alert alert-danger">You did not enter a field</div>
+                                </div>
+
+                                <label>Data:</label>
+                                <input class="form-control" type="datetime-local" ng-model="vm.editLancamento.data" name="data" placeholder="data" ng-required="true"/>
+
+
+                            <div ng-class="{'has-error':editLancForm.repeticoes.$invalid &&
+                                    editLancForm.repeticoes.$dirty}">
+
+                                <div ng-messages="editLancForm.repeticoes.$error" style="color:#9f191f" role="alert">
+                                    <div ng-message="required" ng-if="editLancForm.repeticoes.$dirty" class="alert alert-danger">You did not enter a field</div>
+                                </div>
+
+                                <label>Repetições:</label>
+                                <input class="form-control" type="number" ng-model="vm.editLancamento.repeticoes" name="repeticoes" placeholder="repeticoes" ng-required="true"/>
+
+                            </div>
+
+                            <div ng-class="{'has-error':editLancForm.repetitividade.$invalid &&
+                                    editLancForm.repetitividade.$dirty}">
+
+                                <div ng-messages="editLancForm.repetitividade.$error" style="color:#9f191f" role="alert">
+                                    <div ng-message="required" ng-if="editLancForm.repetitividade.$dirty" class="alert alert-danger">You did not enter a field</div>
+                                </div>
+
+                                <label>Repetitividade:</label>
+                                <input class="form-control" type="text" ng-model="vm.editLancamento.repetitividade" name="repetitividade" placeholder="repetitividade" ng-required="true"/>
+
+                            </div>
+                            <button type="button" class="btn btn-primary" ng-click="vm.update(vm.editLancamento)">Atualiar</button>
+
+                        </form>
+
+
                     </div>
                 </section>
 

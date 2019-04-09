@@ -36,47 +36,47 @@
 
         function add(noticia) {
 
-            let noticiaStorage = localStorage.getItem(key);
-            var lista = angular.fromJson(noticiaStorage);
+            var noticias = angular.fromJson(localStorage.getItem(key));
 
-            if (noticia.id === null){
-
-                noticia.id = lista.length + 1;
-                let index = lista.findIndex(n => n.id === noticia.id);
-                console.log(index);
-                if(index < 0) {
-                    lista.push(noticia);
-                }
+            noticia.id = noticias.length + 1;
+            let index = noticias.findIndex(n => n.id === noticia.id);
+            console.log(index);
+            if(index < 0) {
+                noticias.push(noticia);
+                localStorage.setItem(key, angular.toJson(noticias));
+                return angular.fromJson(localStorage.getItem(key));
             }
-            localStorage.setItem(key, angular.toJson(lista));
+
         }
 
         function remove(noticiaId) {
 
-            let noticiaStorage = localStorage.getItem(key);
-            var lista = angular.fromJson(noticiaStorage);
+            var noticias = angular.fromJson(localStorage.getItem(key));
 
             if (noticiaId != null){
-                let index = lista.findIndex(c => c.id === noticiaId);
+                let index = noticias.findIndex(c => c.id === noticiaId);
                 console.log(index);
-                lista.splice(index, 1);
+                noticias.splice(index, 1);
+                localStorage.setItem(key, angular.toJson(noticias));
+                return angular.fromJson(localStorage.getItem(key));
             }
-            localStorage.setItem(key, angular.toJson(lista));
         }
 
         function update(noticia) {
 
-            let noticiaStorage = localStorage.getItem(key);
-            var lista = angular.fromJson(noticiaStorage);
+            var noticias = angular.fromJson(localStorage.getItem(key));
 
             if (noticia.id != null){
 
                 let index = lista.findIndex(c => c.id === noticia.id);
                 var obj = lista[index];
-                obj.nome = noticia.nome;
-                obj.descricao = noticia.descricao;
+                obj.titulo = noticia.titulo;
+                obj.autor = noticia.autor;
+                obj.data = noticia.data;
+                obj.imagem = noticia.imagem;
+                localStorage.setItem(key, angular.toJson(noticias));
+                return angular.fromJson(localStorage.getItem(key));
             }
-            localStorage.setItem(key, angular.toJson(lista));
         }
 
     }
