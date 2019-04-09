@@ -25,7 +25,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="lancamento in vm.lancamentos">
+                <tr ng-repeat="lancamento in vm.lancamentos | orderBy:'-data'">
                     <td ng-hide="vm.ocultar">{{lancamento.id}}</td>
                     <td>{{lancamento.nome}}</td>
                     <td>{{lancamento.descricao}}</td>

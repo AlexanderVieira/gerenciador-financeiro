@@ -18,7 +18,15 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="noticia in vm.noticias | orderBy:'-data' | limitTo:5">
+                <tr ng-if="vm.isLogged" ng-repeat="noticia in vm.noticias">
+                    <td ng-hide="vm.ocultar">{{noticia.id}}</td>
+                    <td>{{noticia.titulo}}</td>
+                    <td>{{noticia.mensagem}}</td>
+                    <td>{{noticia.autor}}</td>
+                    <td><span>{{noticia.data | date:'dd-MM-yyyy HH:mm:ss'}}</span></td>
+                    <td><img ng-src="http://www.gravatar.com/avatar/{{noticia.imagem}}" alt="Description" /></td>
+                </tr>
+                <tr ng-if="!vm.isLogged" ng-repeat="noticia in vm.noticias | orderBy:'-data' | limitTo:5">
                     <td ng-hide="vm.ocultar">{{noticia.id}}</td>
                     <td>{{noticia.titulo}}</td>
                     <td>{{noticia.mensagem}}</td>
