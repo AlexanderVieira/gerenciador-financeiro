@@ -3,7 +3,7 @@
         <h3>Lançamentos</h3>
     </div>
 
-    <div class="btn-add-cat">
+    <div class="add-cat">
         <button type="button" class="btn btn btn-success" data-toggle="modal" data-target="#add-modal" ng-if="vm.isLogged">Adicionar</button>
     </div>
 
@@ -140,7 +140,7 @@
                             </div>
 
                             <label>Data:</label>
-                            <input class="form-control" type="datetime-local" ng-model="vm.lancamento.data" name="data" placeholder="data" ng-required="true"/>
+                            <input class="form-control" type="text" ng-model="vm.lancamento.data" name="data" placeholder="data" ng-required="true"/>
 
 
                             <div ng-class="{'has-error':addLancForm.repeticoes.$invalid &&
@@ -206,7 +206,7 @@
                             <label>Categoria:</label>
                             <input class="form-control" type="text" ng-readonly="true" ng-model="vm.detailLancamento.categoria" name="categoria" placeholder="Nome da categoria" ng-required="true" ng-minlength="4"/>
                             <label>Data:</label>
-                            <input class="form-control" type="datetime-local" ng-readonly="true" ng-model="vm.detailLancamento.data" name="data" placeholder="data" ng-required="true"/>
+                            <input class="form-control" type="text" ng-readonly="true" ng-model="vm.detailLancamento.data" name="data" placeholder="data" ng-required="true"/>
                             <label>Repetiçôes:</label>
                             <input class="form-control" type="number" ng-readonly="true" ng-model="vm.detailLancamento.repeticoes" name="repeticoes" placeholder="repeticoes" ng-required="true"/>
                             <label>Repetitividade:</label>
@@ -318,7 +318,7 @@
                                 </div>
 
                                 <label>Data:</label>
-                                <input class="form-control" type="datetime-local" ng-model="vm.editLancamento.data" name="data" placeholder="data" ng-required="true"/>
+                                <input class="form-control" type="text" ng-model="vm.editLancamento.data" name="data" placeholder="data" ng-required="true"/>
 
 
                             <div ng-class="{'has-error':editLancForm.repeticoes.$invalid &&

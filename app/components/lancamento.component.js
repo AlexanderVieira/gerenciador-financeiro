@@ -25,6 +25,12 @@
             vm.detailLancamento = {};
             vm.ocultar = true;
 
+            vm.sampleDate = function(data){
+                var newDate = new Date(data);
+                return newDate;
+            };
+
+
             let sessionIsLogged = $sessionStorage.isLogged;
             if (sessionIsLogged == null) {
                 vm.isLogged = $sessionStorage.isLogged = false;

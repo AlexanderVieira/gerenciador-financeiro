@@ -8,6 +8,11 @@
     appModule.config(function ($stateProvider, $urlRouterProvider) {
         var states = [
             {
+                name: 'painel',
+                url: '/painel',
+                templateUrl: 'templates/collapsed-sidebar.html'
+            },
+            {
                 name: 'home',
                 url: '/home',
                 template: '<home></home>'

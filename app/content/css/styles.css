@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400);
+/*@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400);*/
 body{
 	padding: 0px;
 	background-color: #ccccbb !important;
@@ -43,7 +43,7 @@ body{
     margin: 0 auto 20px auto;
 }
 
-.btn-task, .btn-category{
+.btn-category{
     position: relative;
     left: 48px;
     margin: 0 auto 20px auto;
@@ -52,9 +52,9 @@ body{
 .add-cat, .edit-cat, .detail-cat{
     position: relative;
     margin: 10px auto 10px auto;
-    /*left: 48px;*/
+    left: 48px;
     display: inline-block;
-    width: 100%;
+    width: 140px;
 }
 
 .add-cat input, .edit-cat input, .detail-cat input{
@@ -63,9 +63,11 @@ body{
     margin: 10px;
 }
 
-.btn-add-cat button{
+/*.btn-add-cat button{
     margin-left: 47px !important;
-}
+    margin-bottom: 5px;
+    width: 140px;
+}*/
 
 .add-task{
     position: relative;
