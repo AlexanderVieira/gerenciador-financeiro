@@ -10,20 +10,27 @@
     <link rel="stylesheet" href="content/font-awesome/css/font-awesome.min.css">
     <!-- Ionicons -->
     <link rel="stylesheet" href="content/Ionicons/css/ionicons.min.css">
-    <!-- Theme style -->
-    <!--<link rel="stylesheet" href="content/css/AdminLTE.min.css">-->
-    <!-- iCheck -->
+    <!-- jvectormap -->
+    <link rel="stylesheet" href="content/plugins/jvectormap/jquery-jvectormap-1.2.2.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="content/datatables.net-bs/css/dataTables.bootstrap.min.css">
+    <!--Theme style-->
+    <link rel="stylesheet" href="content/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+       folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="content/css/skins/_all-skins.min.css">
+    <!--iCheck -->
     <link rel="stylesheet" href="content/plugins/iCheck/square/blue.css">
-
+    <!--style of site-->
     <link rel="stylesheet" href="content/css/styles.css">
 
     <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>-->
 
-    <!--<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
-<body ng-cloak>
+<body class="hold-transition skin-blue sidebar-collapse sidebar-mini">
 
     <navigation></navigation>
 
@@ -48,6 +55,7 @@
     <script src="components/registro.component.js"></script>
     <script src="components/login.component.js"></script>
     <script src="components/logout.component.js"></script>
+    <script src="components/painel.component.js"></script>
     <script src="services/noticiaService.js"></script>
     <script src="services/categoriaService.js"></script>
     <script src="services/lancamentoService.js"></script>
@@ -62,6 +70,16 @@
     <script src="content/js/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap 3.3.7 -->
     <script src="content/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="content/js/adminlte.min.js"></script>
+    <!-- jvectormap  -->
+    <script src="content/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
+    <script src="content/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+    <script src="content/chart.js/Chart.js"></script>
+    <!-- DataTables -->
+    <script src="content/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="content/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <script src="content/js/pages/dashboard2.js"></script>
     <!-- iCheck -->
     <script src="content/plugins/iCheck/icheck.min.js"></script>
     <script>
@@ -71,6 +89,18 @@
                 radioClass: 'iradio_square-blue',
                 increaseArea: '20%' /* optional */
             });
+        });
+
+        $(function () {
+            $('#example1').DataTable();
+            $('#example2').DataTable({
+                'paging'      : true,
+                'lengthChange': false,
+                'searching'   : false,
+                'ordering'    : true,
+                'info'        : true,
+                'autoWidth'   : false
+            })
         });
     </script>
 

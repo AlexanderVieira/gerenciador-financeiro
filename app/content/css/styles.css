@@ -1,28 +1,28 @@
 /*@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400);*/
-body{
+/*body{
 	padding: 0px;
 	background-color: #ccccbb !important;
     font-family: 'Source Sans Pro', sans-serif;
-    /*font-weight:300;*/
-    /*color:#FFF;*/
-}
+    !*font-weight:300;*!
+    !*color:#FFF;*!
+}*/
 
-.ng-cloak {
+/*.ng-cloak {
     display: none;
-}
+}*/
 
-.navbar{
+/*.navbar{
     width: 100%;
     margin-bottom: 0 !important;
 
-}
+}*/
 
-#container{
+/*#container{
     width: 1024px;
     margin: 0 auto 0 auto;
-}
+}*/
 
-.table{
+/*.table{
     width: 100%;
     margin: 0 auto 0 auto;
 }
@@ -61,7 +61,7 @@ body{
     width: 40%;
     display: inline-block;
     margin: 10px;
-}
+}*/
 
 /*.btn-add-cat button{
     margin-left: 47px !important;
@@ -69,7 +69,7 @@ body{
     width: 140px;
 }*/
 
-.add-task{
+/*.add-task{
     position: relative;
     width: 90%;
     margin: 5px auto 0 auto;
@@ -77,17 +77,17 @@ body{
 
 .add-task form button{
     margin-top: 5px;
-}
+}*/
 
 /*Inicio do rodapé*/
-section{
+/*section{
     text-align:center;
     background-color:lightblue;
 }
 
 section h1{
     margin: 0;
-}
+}*/
 .footer #button{
     width:35px;
     height:35px;
@@ -170,12 +170,6 @@ section h1{
 b, strong{
     color: #FFFFFF;
 }
-
-/*.copyright h4{
-    color: #FFFFFF;
-    width: 100%;
-    !*margin-left:40px;*!
-}*/
 
 /*fim do rodape*/
 
