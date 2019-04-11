@@ -21,6 +21,7 @@
             vm.noticia = {'id': null};
             vm.editNoticia = {};
             vm.detailNoticia = {};
+            vm.delNoticia = {};
             vm.ocultar = true;
 
             vm.convertToDate = function(data){
