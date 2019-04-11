@@ -16,7 +16,7 @@
           remove: '&'
         },
         controllerAs: 'vm',
-        controller: function (lancamentoService, $sessionStorage, $timeout) {
+        controller: function (lancamentoService, $sessionStorage, $timeout, calculaFaturamentoService) {
 
             var vm = this;
             vm.lancamentos = [];
@@ -24,6 +24,8 @@
             vm.editLancamento = {};
             vm.detailLancamento = {};
             vm.ocultar = true;
+            vm.soma = 0;
+            console.log(vm.soma);
 
             vm.sampleDate = function(data){
                 var newDate = new Date(data);
@@ -77,7 +79,8 @@
 
                     var novaLista =lancamentoService.update(lancamento);
                     vm.lancamentos = novaLista;
-                }
+                };
+
             };
         },
         templateUrl: 'templates/lancamento.html'

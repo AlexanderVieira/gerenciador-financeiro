@@ -10,7 +10,7 @@
             {
                 name: 'painel',
                 url: '/painel',
-                templateUrl: 'templates/collapsed-sidebar.html'
+                template: '<dashboard></dashboard>'
             },
             {
                 name: 'home',

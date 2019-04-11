@@ -1,11 +1,12 @@
 (function () {
     'use strict';
 
-    angular.module('gfpApp').component('painel', {
+    angular.module('gfpApp').component('dashboard', {
         controllerAs: 'vm',
-        controller: function ($sessionStorage) {
+        controller: function ($sessionStorage, calculaFaturamentoService) {
 
             var vm = this;
+            vm.faturamentoMaio2017 = [];
 
             let sessionIsLogged = $sessionStorage.isLogged;
             if (sessionIsLogged == null) {
@@ -15,8 +16,11 @@
 
             vm.$onInit = function () {
 
+                var faturamentoMaio2017 = calculaFaturamentoService.calcularFaturamentoMaio();
+                console.log(faturamentoMaio2017);
+
             };
         },
-        templateUrl: 'templates/collapsed-sidebar.html'
+        templateUrl: 'templates/dashboard.html'
     });
 })();
