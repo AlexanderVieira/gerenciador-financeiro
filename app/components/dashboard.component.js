@@ -49,6 +49,7 @@
 
                 var projecao = calculaFaturamentoService.calculaProjecaoFaturamento();
                 vm.projecao = projecao;
+
             };
         },
         templateUrl: 'templates/dashboard.html'
