@@ -7,6 +7,8 @@
 
             var vm = this;
             vm.faturamentoMaio2017 = [];
+            vm.receitaMaio2017 = 0.0;
+            vm.faturamentoMaio2017 = 0.0;
 
             let sessionIsLogged = $sessionStorage.isLogged;
             if (sessionIsLogged == null) {
@@ -17,8 +19,8 @@
             vm.$onInit = function () {
 
                 var faturamentoMaio2017 = calculaFaturamentoService.calcularFaturamentoMaio();
-                console.log(faturamentoMaio2017);
-
+                vm.receitaMaio2017 = faturamentoMaio2017.receita;
+                vm.faturamentoMaio2017 = faturamentoMaio2017.faturamentoMaio2017;
             };
         },
         templateUrl: 'templates/dashboard.html'

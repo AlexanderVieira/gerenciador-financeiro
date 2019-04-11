@@ -421,8 +421,8 @@
                   </p>
 
                   <div class="progress-group">
-                    <span class="progress-text">Receita Maio/2017</span>
-                    <span class="progress-number"><b>160</b>/200</span>
+                    <span class="progress-text">Receita Maio/2017: </span>
+                    <span class="progress-number">{{vm.receitaMaio2017 | currency}}</span>
 
                     <div class="progress sm">
                       <div class="progress-bar progress-bar-aqua" style="width: 80%"></div>
@@ -476,7 +476,7 @@
                 <div class="col-sm-3 col-xs-6">
                   <div class="description-block border-right">
                     <span class="description-percentage text-yellow"><i class="fa fa-caret-up"></i>jan/2017</span>
-                    <h5 class="description-header">$35,210.43</h5>
+                    <h5 class="description-header"></h5>
                     <span class="description-text">FATURAMENTO</span>
                   </div>
                   <!-- /.description-block -->
@@ -503,7 +503,7 @@
                 <div class="col-sm-3 col-xs-6">
                   <div class="description-block">
                     <span class="description-percentage text-light-blue"><i class="fa fa-caret-down"></i>maio/2017</span>
-                    <h5 class="description-header">1200</h5>
+                    <h5 class="description-header">{{vm.faturamentoMaio2017 | currency}}</h5>
                     <span class="description-text">FATURAMENTO</span>
                   </div>
                   <!-- /.description-block -->
